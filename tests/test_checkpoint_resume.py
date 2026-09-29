@@ -2,8 +2,11 @@ from __future__ import annotations
 
 from pathlib import Path
 
+import pandas as pd
+
 from src.checkpoint import CheckpointManager
 from src.gwo import GreyWolfOptimizer
+from src.utils import upsert_csv_rows
 
 
 def test_checkpoint_save_load(tmp_path):
@@ -58,3 +61,20 @@ def test_gwo_resume_behavior(tmp_path):
     assert "best_fitness" in resumed
     assert len(resumed["convergence_history"]) == 2
     assert len(partial["evaluations"]) <= len(resumed["evaluations"])
+
+
+def test_csv_upsert_is_idempotent(tmp_path):
+    path = tmp_path / "outer_fold_predictions.csv"
+    rows = [
+        {"phase": "outer_cv", "model": "RF", "outer_fold": 1, "row_in_fold": 0, "y_true": "Normal", "y_pred": "Normal"},
+        {"phase": "outer_cv", "model": "RF", "outer_fold": 1, "row_in_fold": 0, "y_true": "Normal", "y_pred": "Normal"},
+    ]
+    fieldnames = ["phase", "model", "outer_fold", "row_in_fold", "y_true", "y_pred"]
+    key_fields = ["phase", "model", "outer_fold", "row_in_fold"]
+
+    upsert_csv_rows(path, rows, fieldnames, key_fields)
+    upsert_csv_rows(path, rows, fieldnames, key_fields)
+
+    df = pd.read_csv(path)
+    assert len(df) == 1
+    assert df.iloc[0]["model"] == "RF"

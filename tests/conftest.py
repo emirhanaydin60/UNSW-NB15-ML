@@ -1,8 +1,11 @@
 from __future__ import annotations
 
+from pathlib import Path
+
 import numpy as np
 import pandas as pd
 import pytest
+import yaml
 
 
 @pytest.fixture
@@ -108,3 +111,24 @@ def synthetic_dataset(synthetic_config):
 
     df = pd.DataFrame(rows)
     return df
+
+
+@pytest.fixture(scope="session")
+def real_config():
+    repo_root = Path(__file__).resolve().parents[1]
+    with (repo_root / "config.yaml").open("r", encoding="utf-8") as f:
+        return yaml.safe_load(f)
+
+
+@pytest.fixture(scope="session")
+def real_train_df(real_config):
+    from src.data_loader import load_training_dataset
+
+    return load_training_dataset(real_config)
+
+
+@pytest.fixture(scope="session")
+def real_test_df(real_config):
+    from src.data_loader import load_test_dataset
+
+    return load_test_dataset(real_config)

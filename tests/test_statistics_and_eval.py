@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import pandas as pd
+import pytest
 
 from src.evaluation import compute_metrics_dict
 from src.statistics import run_statistical_analysis, summarize_cv_performance
@@ -39,3 +40,21 @@ def test_statistical_analysis_and_summary():
 
     # Pairwise may be empty if Friedman not significant in synthetic data; type check only.
     assert isinstance(pairwise_df, pd.DataFrame)
+
+
+def test_statistical_analysis_rejects_invalid_fold_structure():
+    rows = []
+    for fold in range(1, 6):
+        for model in ["DT", "RF", "SVM", "LR", "XGBoost"]:
+            rows.append(
+                {
+                    "outer_fold": fold,
+                    "model": model,
+                    "balanced_accuracy": 0.5 + 0.01 * fold,
+                    "macro_f1": 0.4 + 0.01 * fold,
+                }
+            )
+    bad_df = pd.DataFrame(rows[:-1])
+
+    with pytest.raises(ValueError, match="exactly five models|exactly one observation|folds 1-5"):
+        run_statistical_analysis(bad_df)

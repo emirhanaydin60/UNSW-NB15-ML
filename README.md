@@ -48,12 +48,14 @@ Validation checks enforce:
 
 ## 3. Installation
 
-1. Create/activate a Python environment.
+1. Create/activate the `pytorch-v1` conda environment.
 2. Install dependencies:
 
 ```bash
 pip install -r requirements.txt
 ```
+
+All project commands should be run from `pytorch-v1`.
 
 ## 4. Configuration
 
@@ -192,7 +194,9 @@ The implementation includes explicit safeguards:
 - feature selection fit only on outer training partitions
 - SMOTENC applied only to training partitions
 - outer validation never used by GWO or model fitting
-- official test evaluation only after nested CV completion
+- official test dataset is loaded only immediately before final evaluation
+- if the selected top-20 features contain no categorical variables, the code logs `SMOTE_USED_BECAUSE_NO_SELECTED_CATEGORICAL_FEATURES` and uses standard SMOTE on the selected feature matrix
+- statistical testing requires exactly five paired outer-fold observations for each model
 
 ## 13. Running Tests
 

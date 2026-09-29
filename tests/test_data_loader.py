@@ -38,3 +38,28 @@ def test_load_datasets_and_split_xy(tmp_path, synthetic_config, synthetic_datase
     assert "id" not in X.columns
     assert "label" not in X.columns
     assert y.name == "attack_cat"
+
+
+def test_real_unsw_nb15_dataset_loading(real_config, real_train_df, real_test_df):
+    assert len(real_train_df) == 175341
+    assert len(real_test_df) == 82332
+
+    dataset_cfg = real_config["dataset"]
+    assert dataset_cfg["target_column"] == "attack_cat"
+    assert dataset_cfg["excluded_columns"] == ["id", "label"]
+    assert dataset_cfg["categorical_columns"] == ["proto", "service", "state"]
+
+    train_features, train_target = split_xy(real_train_df, real_config)
+    test_features, test_target = split_xy(real_test_df, real_config)
+
+    assert train_target.name == "attack_cat"
+    assert test_target.name == "attack_cat"
+    assert "attack_cat" not in train_features.columns
+    assert "attack_cat" not in test_features.columns
+    assert "id" not in train_features.columns
+    assert "label" not in train_features.columns
+    assert len(train_features.columns) == 42
+    assert len(test_features.columns) == 42
+    for column in ["proto", "service", "state"]:
+        assert column in train_features.columns
+        assert column in test_features.columns

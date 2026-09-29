@@ -30,6 +30,27 @@ def run_statistical_analysis(
     outer_fold_metrics: pd.DataFrame,
     alpha: float = 0.05,
 ) -> tuple[pd.DataFrame, pd.DataFrame]:
+    required_folds = {1, 2, 3, 4, 5}
+
+    if outer_fold_metrics.empty:
+        raise ValueError("Statistical analysis requires results for exactly five paired outer folds and five models")
+
+    if outer_fold_metrics.duplicated(subset=["model", "outer_fold"]).any():
+        raise ValueError("Statistical analysis requires exactly one row per model and outer fold")
+
+    observed_folds = set(map(int, outer_fold_metrics["outer_fold"].unique()))
+    if observed_folds != required_folds:
+        raise ValueError(f"Statistical analysis requires outer folds {sorted(required_folds)}; got {sorted(observed_folds)}")
+
+    model_names = sorted(map(str, outer_fold_metrics["model"].unique()))
+    if len(model_names) != 5:
+        raise ValueError(f"Statistical analysis requires results for exactly five models; got {len(model_names)}")
+
+    for model_name in model_names:
+        model_folds = set(map(int, outer_fold_metrics.loc[outer_fold_metrics["model"] == model_name, "outer_fold"].tolist()))
+        if model_folds != required_folds:
+            raise ValueError(f"Model {model_name} must have exactly one observation for folds 1-5; got {sorted(model_folds)}")
+
     friedman_rows: list[dict[str, Any]] = []
     pairwise_rows: list[dict[str, Any]] = []
 
@@ -42,8 +63,6 @@ def run_statistical_analysis(
         "significant",
     ]
 
-    if outer_fold_metrics.shape[0] < 5:
-        raise ValueError(f"Statistical analysis requires at least 5 outer folds; got {outer_fold_metrics.shape[0]}")
     for metric in ["balanced_accuracy", "macro_f1"]:
         pivot = outer_fold_metrics.pivot_table(
             index="outer_fold",

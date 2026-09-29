@@ -9,10 +9,10 @@ import pandas as pd
 
 from src.checkpoint import CheckpointManager
 from src.configuration import apply_smoke_overrides, load_config, save_effective_config
-from src.data_loader import load_datasets
+from src.data_loader import load_training_dataset
 from src.logger import setup_logger
 from src.nested_cv import NestedCVExperiment, RunContext
-from src.utils import ensure_dir
+from src.utils import ensure_dir, sha256_file
 
 
 def parse_args() -> argparse.Namespace:
@@ -57,8 +57,8 @@ def resolve_existing_run_dir(runs_root: Path, run_id: str | None) -> Path:
 
 def prepare_smoke_subsets(
     train_df: pd.DataFrame,
-    test_df: pd.DataFrame,
     config: dict,
+    test_df: pd.DataFrame | None = None,
 ) -> tuple[pd.DataFrame, pd.DataFrame]:
     target = config["dataset"]["target_column"]
     expected = config["dataset"]["expected_classes"]
@@ -67,12 +67,13 @@ def prepare_smoke_subsets(
     train_n = int(smoke_cfg.get("rows_per_class_train", 60))
     test_n = int(smoke_cfg.get("rows_per_class_test", 30))
     seed = int(config["experiment"]["base_seed"])
+    source_test_df = test_df if test_df is not None else train_df
 
     train_parts = []
     test_parts = []
     for cls in expected:
         cls_train = train_df[train_df[target].astype(str) == cls]
-        cls_test = test_df[test_df[target].astype(str) == cls]
+        cls_test = source_test_df[source_test_df[target].astype(str) == cls]
         if cls_train.empty or cls_test.empty:
             raise ValueError(f"Smoke subset cannot be built; class missing: {cls}")
         train_parts.append(cls_train.sample(n=min(train_n, len(cls_train)), random_state=seed))
@@ -131,11 +132,12 @@ def main() -> None:
         print(f"Reports generated in: {run_dir}")
         return
 
-    train_df, test_df, hashes = load_datasets(cfg, logger=logger)
-    exp.write_metadata(hashes)
+    train_df = load_training_dataset(cfg, logger=logger)
+    train_path = Path(cfg["dataset"]["train_path"])
+    exp.write_metadata({"train_file": train_path.name, "train_sha256": sha256_file(train_path)})
 
     if args.smoke_test:
-        train_df, test_df = prepare_smoke_subsets(train_df, test_df, cfg)
+        train_df, _ = prepare_smoke_subsets(train_df, cfg)
 
     if args.resume:
         if not exp.ckpt.validate_state():

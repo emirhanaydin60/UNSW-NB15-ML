@@ -32,6 +32,7 @@ from src.utils import (
     ensure_dir,
     get_system_metadata,
     json_hash,
+    upsert_csv_rows,
     utc_now_iso,
 )
 
@@ -240,15 +241,17 @@ class NestedCVExperiment:
                     }
                 )
 
-        append_csv_rows(
+        upsert_csv_rows(
             self.paths["results"] / "feature_importances.csv",
             feature_rows,
             fieldnames=["phase", "outer_fold", "feature", "importance", "rank", "selected"],
+            key_fields=["phase", "outer_fold", "feature"],
         )
-        append_csv_rows(
+        upsert_csv_rows(
             self.paths["results"] / "selected_features.csv",
             selected_rows,
             fieldnames=["phase", "outer_fold", "rank", "feature", "importance"],
+            key_fields=["phase", "outer_fold", "rank", "feature"],
         )
 
     def _record_class_distribution(
@@ -282,10 +285,11 @@ class NestedCVExperiment:
                     "count": int(after.get(cls, 0)),
                 }
             )
-        append_csv_rows(
+        upsert_csv_rows(
             self.paths["results"] / "class_distributions.csv",
             rows,
             fieldnames=["phase", "model", "outer_fold", "stage", "class", "count"],
+            key_fields=["phase", "model", "outer_fold", "stage", "class"],
         )
 
     def _gwo_eval_key(self, phase: str, model: str, outer_fold: int, iteration: int, wolf_index: int) -> str:
@@ -317,8 +321,8 @@ class NestedCVExperiment:
                     "wolf_index": int(row["wolf_index"]),
                     "hyperparameters_json": json.dumps(row["params"], sort_keys=True),
                     "fitness": float(row["fitness"]),
-                    "mean_inner_balanced_accuracy": float(row["mean_inner_balanced_accuracy"]),
-                    "mean_inner_macro_f1": float(row["mean_inner_macro_f1"]),
+                    "mean_inner_balanced_accuracy": float(row.get("mean_inner_balanced_accuracy", row.get("mean_balanced_accuracy", row["fitness"]))),
+                    "mean_inner_macro_f1": float(row.get("mean_inner_macro_f1", row.get("mean_macro_f1", row["fitness"]))),
                     "best_fitness_so_far": float(row["best_fitness_so_far"]),
                     "became_alpha": bool(row["became_alpha"]),
                     "failed": bool(row.get("failed", False)),
@@ -327,7 +331,7 @@ class NestedCVExperiment:
             )
 
         if eval_rows:
-            append_csv_rows(
+            upsert_csv_rows(
                 self.paths["results"] / "gwo_results.csv",
                 eval_rows,
                 fieldnames=[
@@ -345,6 +349,7 @@ class NestedCVExperiment:
                     "failed",
                     "error",
                 ],
+                key_fields=["phase", "model", "outer_fold", "iteration", "wolf_index"],
             )
 
         conv_rows = []
@@ -367,7 +372,7 @@ class NestedCVExperiment:
             )
 
         if conv_rows:
-            append_csv_rows(
+            upsert_csv_rows(
                 self.paths["results"] / "gwo_convergence.csv",
                 conv_rows,
                 fieldnames=[
@@ -380,6 +385,7 @@ class NestedCVExperiment:
                     "beta_score",
                     "delta_score",
                 ],
+                key_fields=["phase", "model", "outer_fold", "iteration"],
             )
 
     def _run_gwo(
@@ -435,11 +441,7 @@ class NestedCVExperiment:
 
     def _build_sampling_strategy_for_stage(self, y: pd.Series) -> dict[str, int]:
         target_count = int(self.config["smotenc"]["target_count"])
-        return {
-            str(cls): target_count
-            for cls, count in y.value_counts().items()
-            if int(count) < target_count
-        }
+        return {str(cls): target_count for cls, count in y.value_counts().items() if int(count) < target_count}
 
     def _apply_balancing_with_policy(
         self,
@@ -480,6 +482,54 @@ class NestedCVExperiment:
         y_bal = pd.Series(y_resampled, name=y_selected.name)
         after = y_bal.value_counts().sort_index().to_dict()
         return X_bal, y_bal, before, after, strategy, "smote"
+
+    def _validate_outer_fold_structure(self, outer_fold_metrics: pd.DataFrame) -> None:
+        required_folds = {1, 2, 3, 4, 5}
+        if outer_fold_metrics.empty:
+            raise ValueError("Statistical analysis requires outer-fold results for all five folds and five models")
+
+        if outer_fold_metrics.duplicated(subset=["model", "outer_fold"]).any():
+            raise ValueError("Statistical analysis requires exactly one row per model and outer fold")
+
+        observed_folds = set(map(int, outer_fold_metrics["outer_fold"].unique()))
+        if observed_folds != required_folds:
+            raise ValueError(f"Statistical analysis requires outer folds {sorted(required_folds)}; got {sorted(observed_folds)}")
+
+        model_names = sorted(map(str, outer_fold_metrics["model"].unique()))
+        if len(model_names) != 5:
+            raise ValueError(f"Statistical analysis requires results for exactly five models; got {len(model_names)}")
+
+        for model_name in model_names:
+            model_folds = set(map(int, outer_fold_metrics.loc[outer_fold_metrics["model"] == model_name, "outer_fold"].tolist()))
+            if model_folds != required_folds:
+                raise ValueError(f"Model {model_name} must have exactly one observation for folds 1-5; got {sorted(model_folds)}")
+
+    def _prepare_smoke_subsets_from_loaded_data(
+        self,
+        train_df: pd.DataFrame,
+        test_df: pd.DataFrame,
+    ) -> tuple[pd.DataFrame, pd.DataFrame]:
+        target = self.config["dataset"]["target_column"]
+        expected = self.config["dataset"]["expected_classes"]
+        smoke_cfg = self.config["smoke_test"]
+
+        train_n = int(smoke_cfg.get("rows_per_class_train", 60))
+        test_n = int(smoke_cfg.get("rows_per_class_test", 30))
+        seed = int(self.config["experiment"]["base_seed"])
+
+        train_parts = []
+        test_parts = []
+        for cls in expected:
+            cls_train = train_df[train_df[target].astype(str) == cls]
+            cls_test = test_df[test_df[target].astype(str) == cls]
+            if cls_train.empty or cls_test.empty:
+                raise ValueError(f"Smoke subset cannot be built; class missing: {cls}")
+            train_parts.append(cls_train.sample(n=min(train_n, len(cls_train)), random_state=seed))
+            test_parts.append(cls_test.sample(n=min(test_n, len(cls_test)), random_state=seed))
+
+        train_out = pd.concat(train_parts, axis=0).sample(frac=1.0, random_state=seed).reset_index(drop=True)
+        test_out = pd.concat(test_parts, axis=0).sample(frac=1.0, random_state=seed).reset_index(drop=True)
+        return train_out, test_out
 
     def _build_fitness_fn(
         self,
@@ -541,11 +591,7 @@ class NestedCVExperiment:
                 X_inner_train_selected = X_inner_train_encoded[selected_features].reset_index(drop=True)
                 X_inner_val_selected = X_inner_val_encoded[selected_features].reset_index(drop=True)
 
-                cat_indices = [
-                    i
-                    for i, col in enumerate(X_inner_train_selected.columns)
-                    if col in selected_categorical_columns
-                ]
+                cat_indices = [i for i, col in enumerate(X_inner_train_selected.columns) if col in selected_categorical_columns]
                 X_bal, y_bal, _, _, _, balancing_method = self._apply_balancing_with_policy(
                     X_inner_train_selected,
                     y_inner_train,
@@ -718,7 +764,7 @@ class NestedCVExperiment:
             "gwo_runtime_sec": gwo_runtime,
         }
 
-        append_csv_rows(
+        upsert_csv_rows(
             self.paths["results"] / "outer_fold_metrics.csv",
             [metrics_row],
             fieldnames=[
@@ -736,6 +782,7 @@ class NestedCVExperiment:
                 "best_hyperparameters_json",
                 "gwo_runtime_sec",
             ],
+            key_fields=["phase", "model", "outer_fold"],
         )
 
         pred_rows = []
@@ -750,10 +797,11 @@ class NestedCVExperiment:
                     "y_pred": p,
                 }
             )
-        append_csv_rows(
+        upsert_csv_rows(
             self.paths["results"] / "outer_fold_predictions.csv",
             pred_rows,
             fieldnames=["phase", "model", "outer_fold", "row_in_fold", "y_true", "y_pred"],
+            key_fields=["phase", "model", "outer_fold", "row_in_fold"],
         )
 
         self._mark_outer_model_completed(model_name, outer_fold)
@@ -833,12 +881,10 @@ class NestedCVExperiment:
                     model_name=model_name,
                     model_idx=model_idx,
                     outer_fold=outer_fold_idx,
-                    selected_features=selected_features,
-                    X_outer_train_encoded=X_outer_train_encoded,
+                    X_outer_train_raw=X_outer_train_raw,
                     y_outer_train=y_outer_train,
-                    X_outer_val_encoded=X_outer_val_encoded,
+                    X_outer_val_raw=X_outer_val_raw,
                     y_outer_val=y_outer_val,
-                    selected_categorical_columns=selected_categorical_columns,
                 )
 
             self.state["completed_outer_folds"].append(outer_fold_idx)
@@ -850,6 +896,7 @@ class NestedCVExperiment:
         outer_metrics_file = self.paths["results"] / "outer_fold_metrics.csv"
         if outer_metrics_file.exists():
             outer_metrics = pd.read_csv(outer_metrics_file)
+            self._validate_outer_fold_structure(outer_metrics)
             friedman_df, pairwise_df = run_statistical_analysis(outer_metrics, alpha=0.05)
             stat_rows = []
             for _, row in friedman_df.iterrows():
@@ -890,12 +937,16 @@ class NestedCVExperiment:
         if not self.state.get("outer_cv_complete", False):
             raise RuntimeError("Outer CV must complete before final test evaluation")
 
+        X_train_raw, y_train = split_xy(train_df, self.config)
+        test_df = load_test_dataset(self.config, logger=self.logger)
         self.state["official_test_used"] = True
         self._save_state()
 
-        X_train_raw, y_train = split_xy(train_df, self.config)
-        test_df = load_test_dataset(self.config, logger=self.logger)
         X_test_raw, y_test = split_xy(test_df, self.config)
+
+        if self.ctx.smoke_test:
+            _, test_df = self._prepare_smoke_subsets_from_loaded_data(train_df, test_df)
+            X_test_raw, y_test = split_xy(test_df, self.config)
 
         preproc = FoldPreprocessor(categorical_columns=self.dataset_cfg["categorical_columns"])
         preproc.fit(X_train_raw)
@@ -932,7 +983,6 @@ class NestedCVExperiment:
                 outer_fold=0,
                 X_outer_train_raw=X_train_raw,
                 y_outer_train=y_train,
-                selected_categorical_columns=selected_categorical_columns,
             )
 
             gwo_seed = derive_seed(self.base_seed, "gwo", model_name, "final_train")
@@ -992,7 +1042,7 @@ class NestedCVExperiment:
 
             ba, macro_f1 = compute_balanced_accuracy_macro_f1(y_test.tolist(), pred)
 
-            append_csv_rows(
+            upsert_csv_rows(
                 self.paths["results"] / "final_hyperparameters.csv",
                 [
                     {
@@ -1004,9 +1054,10 @@ class NestedCVExperiment:
                     }
                 ],
                 fieldnames=["model", "phase", "best_fitness", "gwo_runtime_sec", "hyperparameters_json"],
+                key_fields=["model", "phase"],
             )
 
-            append_csv_rows(
+            upsert_csv_rows(
                 self.paths["results"] / "final_test_metrics.csv",
                 [
                     {
@@ -1024,6 +1075,7 @@ class NestedCVExperiment:
                     "training_time_sec",
                     "prediction_time_sec",
                 ],
+                key_fields=["model"],
             )
 
             pred_rows = []
@@ -1036,10 +1088,11 @@ class NestedCVExperiment:
                         "y_pred": p,
                     }
                 )
-            append_csv_rows(
+            upsert_csv_rows(
                 self.paths["results"] / "final_test_predictions.csv",
                 pred_rows,
                 fieldnames=["model", "row_in_test", "y_true", "y_pred"],
+                key_fields=["model", "row_in_test"],
             )
 
             cm_df = confusion_matrix_df(y_test.tolist(), pred, self.expected_classes)

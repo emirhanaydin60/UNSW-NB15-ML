@@ -11,6 +11,7 @@ from pathlib import Path
 from typing import Any, Iterable, Sequence
 
 import numpy as np
+import pandas as pd
 
 
 def utc_now_iso() -> str:
@@ -108,6 +109,43 @@ def append_csv_rows(path: str | Path, rows: Iterable[dict[str, Any]], fieldnames
             writer.writeheader()
         for row in rows:
             writer.writerow({k: _to_serializable(row.get(k)) for k in fieldnames})
+
+
+def upsert_csv_rows(
+    path: str | Path,
+    rows: Iterable[dict[str, Any]],
+    fieldnames: Sequence[str],
+    key_fields: Sequence[str],
+) -> None:
+    path_obj = Path(path)
+    ensure_dir(path_obj.parent)
+
+    new_df = pd.DataFrame(list(rows), columns=list(fieldnames))
+    if path_obj.exists():
+        existing_df = pd.read_csv(path_obj)
+        combined = pd.concat([existing_df, new_df], ignore_index=True)
+    else:
+        combined = new_df
+
+    if key_fields:
+        combined = combined.drop_duplicates(subset=list(key_fields), keep="last")
+
+    combined = combined.reindex(columns=list(fieldnames))
+
+    with tempfile.NamedTemporaryFile(
+        mode="w",
+        encoding="utf-8",
+        dir=str(path_obj.parent),
+        delete=False,
+        prefix=path_obj.name,
+        suffix=".tmp",
+    ) as tmp:
+        combined.to_csv(tmp, index=False)
+        tmp.flush()
+        os.fsync(tmp.fileno())
+        tmp_path = Path(tmp.name)
+
+    tmp_path.replace(path_obj)
 
 
 def get_system_metadata() -> dict[str, Any]:
