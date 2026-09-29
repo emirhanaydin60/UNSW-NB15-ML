@@ -1,0 +1,92 @@
+# Copy this file to config.yaml and update dataset paths.
+# This file mirrors the default root-level config.yaml.
+experiment:
+  base_seed: 42
+  runs_root: runs
+  strict_dataset_validation: true
+  save_models: true
+
+dataset:
+  train_path: data/UNSW_NB15_training-set.csv
+  test_path: data/UNSW_NB15_testing-set.csv
+  target_column: attack_cat
+  excluded_columns: [id, label]
+  categorical_columns: [proto, service, state]
+  expected_classes:
+    - Normal
+    - Generic
+    - Exploits
+    - Fuzzers
+    - DoS
+    - Reconnaissance
+    - Analysis
+    - Backdoor
+    - Shellcode
+    - Worms
+
+cv:
+  outer_folds: 5
+  inner_folds: 5
+  shuffle: true
+
+feature_selection:
+  method: random_forest_importance
+  n_estimators: 200
+  criterion: gini
+  top_k: 20
+  n_jobs: -1
+
+smotenc:
+  k_neighbors: 5
+  random_state: 42
+  target_count: 11377
+
+models:
+  enabled: [DT, RF, SVM, LR, XGBoost]
+  search_spaces:
+    DT:
+      max_depth: {type: int, low: 3, high: 30}
+      min_samples_split: {type: int, low: 2, high: 20}
+      min_samples_leaf: {type: int, low: 1, high: 10}
+      criterion: {type: categorical, values: [gini, entropy]}
+    RF:
+      n_estimators: {type: int, low: 100, high: 500}
+      max_depth: {type: int, low: 5, high: 30}
+      min_samples_split: {type: int, low: 2, high: 20}
+      min_samples_leaf: {type: int, low: 1, high: 10}
+      max_features: {type: categorical, values: [sqrt, log2, 0.5]}
+    SVM:
+      C: {type: log_float, low: -2, high: 2}
+      gamma: {type: log_float, low: -4, high: 0}
+    LR:
+      C: {type: log_float, low: -3, high: 2}
+    XGBoost:
+      n_estimators: {type: int, low: 100, high: 500}
+      max_depth: {type: int, low: 3, high: 12}
+      learning_rate: {type: float, low: 0.01, high: 0.30}
+      subsample: {type: float, low: 0.60, high: 1.00}
+      colsample_bytree: {type: float, low: 0.60, high: 1.00}
+      min_child_weight: {type: int, low: 1, high: 10}
+      gamma: {type: float, low: 0.0, high: 5.0}
+
+gwo:
+  population_size: 10
+  iterations: 20
+
+logging:
+  level: INFO
+
+reports:
+  dpi: 300
+  style: whitegrid
+
+smoke_test:
+  enabled: true
+  rows_per_class_train: 60
+  rows_per_class_test: 30
+  outer_folds: 2
+  inner_folds: 2
+  gwo_population_size: 3
+  gwo_iterations: 3
+  smotenc_target_count: 80
+  smotenc_k_neighbors: 3
