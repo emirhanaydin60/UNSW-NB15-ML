@@ -1,0 +1,2561 @@
+{
+  "benchmark": "unsw_combined_parallelism",
+  "timestamp": "2026-09-30T12:33:19.275065+00:00",
+  "environment": {
+    "python": "C:\\Users\\emirh\\anaconda3\\envs\\pytorch-v1\\python.exe",
+    "xgboost_version": "3.4.1",
+    "cpu": "",
+    "logical_cores": 0,
+    "ram_gb": 0
+  },
+  "dataset": {
+    "source": "UNSW-NB15 training set",
+    "sample_rows": 5000
+  },
+  "measurements": [
+    {
+      "model": "SVM",
+      "workers": 4,
+      "model_threads": 4,
+      "elapsed_seconds": 15.21086120000109,
+      "cpu_percent": 8.2,
+      "ram_mb": 15983.6953125,
+      "num_success": 0,
+      "num_failed": 10,
+      "errors": [
+        {
+          "wolf": 0,
+          "params": {
+            "C": 12.468786659075638,
+            "gamma": 0.005695262671673521
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 6, n_samples_fit = 4, n_samples = 4"
+        },
+        {
+          "wolf": 2,
+          "params": {
+            "C": 0.02380725871895354,
+            "gamma": 0.7988944545350382
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 6, n_samples_fit = 4, n_samples = 4"
+        },
+        {
+          "wolf": 1,
+          "params": {
+            "C": 27.188902645221663,
+            "gamma": 0.06158459876169436
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 6, n_samples_fit = 4, n_samples = 4"
+        },
+        {
+          "wolf": 3,
+          "params": {
+            "C": 11.080485964481502,
+            "gamma": 0.1393982177184466
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 6, n_samples_fit = 4, n_samples = 4"
+        },
+        {
+          "wolf": 4,
+          "params": {
+            "C": 0.03254277104330504,
+            "gamma": 0.006332041485861786
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 6, n_samples_fit = 4, n_samples = 4"
+        },
+        {
+          "wolf": 6,
+          "params": {
+            "C": 3.7623611419432557,
+            "gamma": 0.19545485073586322
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 6, n_samples_fit = 4, n_samples = 4"
+        },
+        {
+          "wolf": 5,
+          "params": {
+            "C": 0.3042230366019293,
+            "gamma": 0.5094011902587736
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 6, n_samples_fit = 4, n_samples = 4"
+        },
+        {
+          "wolf": 7,
+          "params": {
+            "C": 0.5938227000013042,
+            "gamma": 0.0008108768226750884
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 6, n_samples_fit = 4, n_samples = 4"
+        },
+        {
+          "wolf": 8,
+          "params": {
+            "C": 1.6532523475753849,
+            "gamma": 0.00017999855738190488
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 6, n_samples_fit = 4, n_samples = 4"
+        },
+        {
+          "wolf": 9,
+          "params": {
+            "C": 20.442061379532987,
+            "gamma": 0.03362463637644078
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 6, n_samples_fit = 4, n_samples = 4"
+        }
+      ],
+      "status": "partial_failure"
+    },
+    {
+      "model": "SVM",
+      "workers": 8,
+      "model_threads": 1,
+      "elapsed_seconds": 15.222570600002655,
+      "cpu_percent": 20.1,
+      "ram_mb": 15827.35546875,
+      "num_success": 0,
+      "num_failed": 10,
+      "errors": [
+        {
+          "wolf": 2,
+          "params": {
+            "C": 0.02380725871895354,
+            "gamma": 0.7988944545350382
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 6, n_samples_fit = 4, n_samples = 4"
+        },
+        {
+          "wolf": 6,
+          "params": {
+            "C": 3.7623611419432557,
+            "gamma": 0.19545485073586322
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 6, n_samples_fit = 4, n_samples = 4"
+        },
+        {
+          "wolf": 5,
+          "params": {
+            "C": 0.3042230366019293,
+            "gamma": 0.5094011902587736
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 6, n_samples_fit = 4, n_samples = 4"
+        },
+        {
+          "wolf": 1,
+          "params": {
+            "C": 27.188902645221663,
+            "gamma": 0.06158459876169436
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 6, n_samples_fit = 4, n_samples = 4"
+        },
+        {
+          "wolf": 4,
+          "params": {
+            "C": 0.03254277104330504,
+            "gamma": 0.006332041485861786
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 6, n_samples_fit = 4, n_samples = 4"
+        },
+        {
+          "wolf": 7,
+          "params": {
+            "C": 0.5938227000013042,
+            "gamma": 0.0008108768226750884
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 6, n_samples_fit = 4, n_samples = 4"
+        },
+        {
+          "wolf": 0,
+          "params": {
+            "C": 12.468786659075638,
+            "gamma": 0.005695262671673521
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 6, n_samples_fit = 4, n_samples = 4"
+        },
+        {
+          "wolf": 3,
+          "params": {
+            "C": 11.080485964481502,
+            "gamma": 0.1393982177184466
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 6, n_samples_fit = 4, n_samples = 4"
+        },
+        {
+          "wolf": 8,
+          "params": {
+            "C": 1.6532523475753849,
+            "gamma": 0.00017999855738190488
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 6, n_samples_fit = 4, n_samples = 4"
+        },
+        {
+          "wolf": 9,
+          "params": {
+            "C": 20.442061379532987,
+            "gamma": 0.03362463637644078
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 6, n_samples_fit = 4, n_samples = 4"
+        }
+      ],
+      "status": "partial_failure"
+    },
+    {
+      "model": "SVM",
+      "workers": 10,
+      "model_threads": 1,
+      "elapsed_seconds": 15.185127999997349,
+      "cpu_percent": 15.0,
+      "ram_mb": 15827.8984375,
+      "num_success": 0,
+      "num_failed": 10,
+      "errors": [
+        {
+          "wolf": 3,
+          "params": {
+            "C": 11.080485964481502,
+            "gamma": 0.1393982177184466
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 6, n_samples_fit = 4, n_samples = 4"
+        },
+        {
+          "wolf": 5,
+          "params": {
+            "C": 0.3042230366019293,
+            "gamma": 0.5094011902587736
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 6, n_samples_fit = 4, n_samples = 4"
+        },
+        {
+          "wolf": 7,
+          "params": {
+            "C": 0.5938227000013042,
+            "gamma": 0.0008108768226750884
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 6, n_samples_fit = 4, n_samples = 4"
+        },
+        {
+          "wolf": 1,
+          "params": {
+            "C": 27.188902645221663,
+            "gamma": 0.06158459876169436
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 6, n_samples_fit = 4, n_samples = 4"
+        },
+        {
+          "wolf": 4,
+          "params": {
+            "C": 0.03254277104330504,
+            "gamma": 0.006332041485861786
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 6, n_samples_fit = 4, n_samples = 4"
+        },
+        {
+          "wolf": 6,
+          "params": {
+            "C": 3.7623611419432557,
+            "gamma": 0.19545485073586322
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 6, n_samples_fit = 4, n_samples = 4"
+        },
+        {
+          "wolf": 2,
+          "params": {
+            "C": 0.02380725871895354,
+            "gamma": 0.7988944545350382
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 6, n_samples_fit = 4, n_samples = 4"
+        },
+        {
+          "wolf": 0,
+          "params": {
+            "C": 12.468786659075638,
+            "gamma": 0.005695262671673521
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 6, n_samples_fit = 4, n_samples = 4"
+        },
+        {
+          "wolf": 9,
+          "params": {
+            "C": 20.442061379532987,
+            "gamma": 0.03362463637644078
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 6, n_samples_fit = 4, n_samples = 4"
+        },
+        {
+          "wolf": 8,
+          "params": {
+            "C": 1.6532523475753849,
+            "gamma": 0.00017999855738190488
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 6, n_samples_fit = 4, n_samples = 4"
+        }
+      ],
+      "status": "partial_failure"
+    },
+    {
+      "model": "LR",
+      "workers": 1,
+      "model_threads": 4,
+      "elapsed_seconds": 18.167835100000957,
+      "cpu_percent": 22.6,
+      "ram_mb": 15714.8828125,
+      "num_success": 0,
+      "num_failed": 10,
+      "errors": [
+        {
+          "wolf": 0,
+          "params": {
+            "C": 7.409352260173368
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 6, n_samples_fit = 4, n_samples = 4"
+        },
+        {
+          "wolf": 1,
+          "params": {
+            "C": 0.15645599135697302
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 6, n_samples_fit = 4, n_samples = 4"
+        },
+        {
+          "wolf": 2,
+          "params": {
+            "C": 19.633132590332256
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 6, n_samples_fit = 4, n_samples = 4"
+        },
+        {
+          "wolf": 3,
+          "params": {
+            "C": 3.0678925535464283
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 6, n_samples_fit = 4, n_samples = 4"
+        },
+        {
+          "wolf": 4,
+          "params": {
+            "C": 0.0029572411409066112
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 6, n_samples_fit = 4, n_samples = 4"
+        },
+        {
+          "wolf": 5,
+          "params": {
+            "C": 75.5286562611562
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 6, n_samples_fit = 4, n_samples = 4"
+        },
+        {
+          "wolf": 6,
+          "params": {
+            "C": 6.392908815231851
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 6, n_samples_fit = 4, n_samples = 4"
+        },
+        {
+          "wolf": 7,
+          "params": {
+            "C": 8.517684046357203
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 6, n_samples_fit = 4, n_samples = 4"
+        },
+        {
+          "wolf": 8,
+          "params": {
+            "C": 0.0043708727539949884
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 6, n_samples_fit = 4, n_samples = 4"
+        },
+        {
+          "wolf": 9,
+          "params": {
+            "C": 0.17861983731416323
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 6, n_samples_fit = 4, n_samples = 4"
+        }
+      ],
+      "status": "partial_failure"
+    },
+    {
+      "model": "LR",
+      "workers": 4,
+      "model_threads": 4,
+      "elapsed_seconds": 15.422791200006031,
+      "cpu_percent": 12.1,
+      "ram_mb": 15833.46875,
+      "num_success": 0,
+      "num_failed": 10,
+      "errors": [
+        {
+          "wolf": 3,
+          "params": {
+            "C": 3.0678925535464283
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 6, n_samples_fit = 4, n_samples = 4"
+        },
+        {
+          "wolf": 0,
+          "params": {
+            "C": 7.409352260173368
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 6, n_samples_fit = 4, n_samples = 4"
+        },
+        {
+          "wolf": 1,
+          "params": {
+            "C": 0.15645599135697302
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 6, n_samples_fit = 4, n_samples = 4"
+        },
+        {
+          "wolf": 2,
+          "params": {
+            "C": 19.633132590332256
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 6, n_samples_fit = 4, n_samples = 4"
+        },
+        {
+          "wolf": 5,
+          "params": {
+            "C": 75.5286562611562
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 6, n_samples_fit = 4, n_samples = 4"
+        },
+        {
+          "wolf": 4,
+          "params": {
+            "C": 0.0029572411409066112
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 6, n_samples_fit = 4, n_samples = 4"
+        },
+        {
+          "wolf": 6,
+          "params": {
+            "C": 6.392908815231851
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 6, n_samples_fit = 4, n_samples = 4"
+        },
+        {
+          "wolf": 7,
+          "params": {
+            "C": 8.517684046357203
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 6, n_samples_fit = 4, n_samples = 4"
+        },
+        {
+          "wolf": 8,
+          "params": {
+            "C": 0.0043708727539949884
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 6, n_samples_fit = 4, n_samples = 4"
+        },
+        {
+          "wolf": 9,
+          "params": {
+            "C": 0.17861983731416323
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 6, n_samples_fit = 4, n_samples = 4"
+        }
+      ],
+      "status": "partial_failure"
+    },
+    {
+      "model": "LR",
+      "workers": 8,
+      "model_threads": 1,
+      "elapsed_seconds": 15.139470499998424,
+      "cpu_percent": 8.3,
+      "ram_mb": 16819.6640625,
+      "num_success": 0,
+      "num_failed": 10,
+      "errors": [
+        {
+          "wolf": 5,
+          "params": {
+            "C": 75.5286562611562
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 6, n_samples_fit = 4, n_samples = 4"
+        },
+        {
+          "wolf": 6,
+          "params": {
+            "C": 6.392908815231851
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 6, n_samples_fit = 4, n_samples = 4"
+        },
+        {
+          "wolf": 0,
+          "params": {
+            "C": 7.409352260173368
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 6, n_samples_fit = 4, n_samples = 4"
+        },
+        {
+          "wolf": 3,
+          "params": {
+            "C": 3.0678925535464283
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 6, n_samples_fit = 4, n_samples = 4"
+        },
+        {
+          "wolf": 7,
+          "params": {
+            "C": 8.517684046357203
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 6, n_samples_fit = 4, n_samples = 4"
+        },
+        {
+          "wolf": 2,
+          "params": {
+            "C": 19.633132590332256
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 6, n_samples_fit = 4, n_samples = 4"
+        },
+        {
+          "wolf": 4,
+          "params": {
+            "C": 0.0029572411409066112
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 6, n_samples_fit = 4, n_samples = 4"
+        },
+        {
+          "wolf": 1,
+          "params": {
+            "C": 0.15645599135697302
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 6, n_samples_fit = 4, n_samples = 4"
+        },
+        {
+          "wolf": 8,
+          "params": {
+            "C": 0.0043708727539949884
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 6, n_samples_fit = 4, n_samples = 4"
+        },
+        {
+          "wolf": 9,
+          "params": {
+            "C": 0.17861983731416323
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 6, n_samples_fit = 4, n_samples = 4"
+        }
+      ],
+      "status": "partial_failure"
+    },
+    {
+      "model": "LR",
+      "workers": 10,
+      "model_threads": 1,
+      "elapsed_seconds": 15.995404800007236,
+      "cpu_percent": 14.5,
+      "ram_mb": 16675.01171875,
+      "num_success": 0,
+      "num_failed": 10,
+      "errors": [
+        {
+          "wolf": 6,
+          "params": {
+            "C": 6.392908815231851
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 6, n_samples_fit = 4, n_samples = 4"
+        },
+        {
+          "wolf": 1,
+          "params": {
+            "C": 0.15645599135697302
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 6, n_samples_fit = 4, n_samples = 4"
+        },
+        {
+          "wolf": 3,
+          "params": {
+            "C": 3.0678925535464283
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 6, n_samples_fit = 4, n_samples = 4"
+        },
+        {
+          "wolf": 7,
+          "params": {
+            "C": 8.517684046357203
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 6, n_samples_fit = 4, n_samples = 4"
+        },
+        {
+          "wolf": 9,
+          "params": {
+            "C": 0.17861983731416323
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 6, n_samples_fit = 4, n_samples = 4"
+        },
+        {
+          "wolf": 5,
+          "params": {
+            "C": 75.5286562611562
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 6, n_samples_fit = 4, n_samples = 4"
+        },
+        {
+          "wolf": 0,
+          "params": {
+            "C": 7.409352260173368
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 6, n_samples_fit = 4, n_samples = 4"
+        },
+        {
+          "wolf": 8,
+          "params": {
+            "C": 0.0043708727539949884
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 6, n_samples_fit = 4, n_samples = 4"
+        },
+        {
+          "wolf": 4,
+          "params": {
+            "C": 0.0029572411409066112
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 6, n_samples_fit = 4, n_samples = 4"
+        },
+        {
+          "wolf": 2,
+          "params": {
+            "C": 19.633132590332256
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 6, n_samples_fit = 4, n_samples = 4"
+        }
+      ],
+      "status": "partial_failure"
+    },
+    {
+      "model": "XGBoost",
+      "workers": 4,
+      "model_threads": 4,
+      "elapsed_seconds": 128.75945370001136,
+      "cpu_percent": 18.0,
+      "ram_mb": 18388.19921875,
+      "num_success": 0,
+      "num_failed": 10,
+      "errors": [
+        {
+          "wolf": 2,
+          "params": {
+            "n_estimators": 277,
+            "max_depth": 5,
+            "learning_rate": 0.1708295882345921,
+            "subsample": 0.6255269024416701,
+            "colsample_bytree": 0.9310524687970329,
+            "min_child_weight": 7,
+            "gamma": 3.7904387004268694
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 4, n_samples_fit = 3, n_samples = 3"
+        },
+        {
+          "wolf": 0,
+          "params": {
+            "n_estimators": 410,
+            "max_depth": 7,
+            "learning_rate": 0.2589933967743009,
+            "subsample": 0.8789472116237456,
+            "colsample_bytree": 0.6376709391550598,
+            "min_child_weight": 10,
+            "gamma": 3.805698509951765
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 4, n_samples_fit = 3, n_samples = 3"
+        },
+        {
+          "wolf": 3,
+          "params": {
+            "n_estimators": 242,
+            "max_depth": 12,
+            "learning_rate": 0.26900512518343733,
+            "subsample": 0.9113533988295047,
+            "colsample_bytree": 0.677855483140787,
+            "min_child_weight": 5,
+            "gamma": 0.21901882893614388
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 4, n_samples_fit = 3, n_samples = 3"
+        },
+        {
+          "wolf": 1,
+          "params": {
+            "n_estimators": 414,
+            "max_depth": 4,
+            "learning_rate": 0.14061192198971448,
+            "subsample": 0.7483192096930324,
+            "colsample_bytree": 0.9707059955394407,
+            "min_child_weight": 7,
+            "gamma": 4.113808066354149
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 4, n_samples_fit = 3, n_samples = 3"
+        },
+        {
+          "wolf": 4,
+          "params": {
+            "n_estimators": 162,
+            "max_depth": 9,
+            "learning_rate": 0.22598102521326696,
+            "subsample": 0.987003892973684,
+            "colsample_bytree": 0.7303301432552608,
+            "min_child_weight": 4,
+            "gamma": 2.3477790563790397
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 4, n_samples_fit = 3, n_samples = 3"
+        },
+        {
+          "wolf": 5,
+          "params": {
+            "n_estimators": 176,
+            "max_depth": 4,
+            "learning_rate": 0.14795442860552077,
+            "subsample": 0.6907637396203536,
+            "colsample_bytree": 0.867925597873004,
+            "min_child_weight": 5,
+            "gamma": 4.163390980289187
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 4, n_samples_fit = 3, n_samples = 3"
+        },
+        {
+          "wolf": 7,
+          "params": {
+            "n_estimators": 156,
+            "max_depth": 5,
+            "learning_rate": 0.012135058227791599,
+            "subsample": 0.9147697510008553,
+            "colsample_bytree": 0.8659403426368129,
+            "min_child_weight": 7,
+            "gamma": 3.9036451551098397
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 4, n_samples_fit = 3, n_samples = 3"
+        },
+        {
+          "wolf": 6,
+          "params": {
+            "n_estimators": 380,
+            "max_depth": 6,
+            "learning_rate": 0.2513553424046083,
+            "subsample": 0.9219057429987207,
+            "colsample_bytree": 0.7549913516120698,
+            "min_child_weight": 4,
+            "gamma": 3.4124775198748774
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 4, n_samples_fit = 3, n_samples = 3"
+        },
+        {
+          "wolf": 8,
+          "params": {
+            "n_estimators": 284,
+            "max_depth": 8,
+            "learning_rate": 0.05054112945702066,
+            "subsample": 0.6458120294143893,
+            "colsample_bytree": 0.8673611847161886,
+            "min_child_weight": 5,
+            "gamma": 2.826180532405944
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 4, n_samples_fit = 3, n_samples = 3"
+        },
+        {
+          "wolf": 9,
+          "params": {
+            "n_estimators": 406,
+            "max_depth": 9,
+            "learning_rate": 0.1705380261908188,
+            "subsample": 0.8236828642981654,
+            "colsample_bytree": 0.7215800392250449,
+            "min_child_weight": 1,
+            "gamma": 2.183586946161812
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 4, n_samples_fit = 3, n_samples = 3"
+        }
+      ],
+      "status": "partial_failure"
+    },
+    {
+      "model": "XGBoost",
+      "workers": 6,
+      "model_threads": 2,
+      "elapsed_seconds": 129.93824829999357,
+      "cpu_percent": 21.2,
+      "ram_mb": 18585.35546875,
+      "num_success": 0,
+      "num_failed": 10,
+      "errors": [
+        {
+          "wolf": 4,
+          "params": {
+            "n_estimators": 162,
+            "max_depth": 9,
+            "learning_rate": 0.22598102521326696,
+            "subsample": 0.987003892973684,
+            "colsample_bytree": 0.7303301432552608,
+            "min_child_weight": 4,
+            "gamma": 2.3477790563790397
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 4, n_samples_fit = 3, n_samples = 3"
+        },
+        {
+          "wolf": 5,
+          "params": {
+            "n_estimators": 176,
+            "max_depth": 4,
+            "learning_rate": 0.14795442860552077,
+            "subsample": 0.6907637396203536,
+            "colsample_bytree": 0.867925597873004,
+            "min_child_weight": 5,
+            "gamma": 4.163390980289187
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 4, n_samples_fit = 3, n_samples = 3"
+        },
+        {
+          "wolf": 2,
+          "params": {
+            "n_estimators": 277,
+            "max_depth": 5,
+            "learning_rate": 0.1708295882345921,
+            "subsample": 0.6255269024416701,
+            "colsample_bytree": 0.9310524687970329,
+            "min_child_weight": 7,
+            "gamma": 3.7904387004268694
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 4, n_samples_fit = 3, n_samples = 3"
+        },
+        {
+          "wolf": 0,
+          "params": {
+            "n_estimators": 410,
+            "max_depth": 7,
+            "learning_rate": 0.2589933967743009,
+            "subsample": 0.8789472116237456,
+            "colsample_bytree": 0.6376709391550598,
+            "min_child_weight": 10,
+            "gamma": 3.805698509951765
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 4, n_samples_fit = 3, n_samples = 3"
+        },
+        {
+          "wolf": 3,
+          "params": {
+            "n_estimators": 242,
+            "max_depth": 12,
+            "learning_rate": 0.26900512518343733,
+            "subsample": 0.9113533988295047,
+            "colsample_bytree": 0.677855483140787,
+            "min_child_weight": 5,
+            "gamma": 0.21901882893614388
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 4, n_samples_fit = 3, n_samples = 3"
+        },
+        {
+          "wolf": 1,
+          "params": {
+            "n_estimators": 414,
+            "max_depth": 4,
+            "learning_rate": 0.14061192198971448,
+            "subsample": 0.7483192096930324,
+            "colsample_bytree": 0.9707059955394407,
+            "min_child_weight": 7,
+            "gamma": 4.113808066354149
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 4, n_samples_fit = 3, n_samples = 3"
+        },
+        {
+          "wolf": 7,
+          "params": {
+            "n_estimators": 156,
+            "max_depth": 5,
+            "learning_rate": 0.012135058227791599,
+            "subsample": 0.9147697510008553,
+            "colsample_bytree": 0.8659403426368129,
+            "min_child_weight": 7,
+            "gamma": 3.9036451551098397
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 4, n_samples_fit = 3, n_samples = 3"
+        },
+        {
+          "wolf": 6,
+          "params": {
+            "n_estimators": 380,
+            "max_depth": 6,
+            "learning_rate": 0.2513553424046083,
+            "subsample": 0.9219057429987207,
+            "colsample_bytree": 0.7549913516120698,
+            "min_child_weight": 4,
+            "gamma": 3.4124775198748774
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 4, n_samples_fit = 3, n_samples = 3"
+        },
+        {
+          "wolf": 8,
+          "params": {
+            "n_estimators": 284,
+            "max_depth": 8,
+            "learning_rate": 0.05054112945702066,
+            "subsample": 0.6458120294143893,
+            "colsample_bytree": 0.8673611847161886,
+            "min_child_weight": 5,
+            "gamma": 2.826180532405944
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 4, n_samples_fit = 3, n_samples = 3"
+        },
+        {
+          "wolf": 9,
+          "params": {
+            "n_estimators": 406,
+            "max_depth": 9,
+            "learning_rate": 0.1705380261908188,
+            "subsample": 0.8236828642981654,
+            "colsample_bytree": 0.7215800392250449,
+            "min_child_weight": 1,
+            "gamma": 2.183586946161812
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 4, n_samples_fit = 3, n_samples = 3"
+        }
+      ],
+      "status": "partial_failure"
+    },
+    {
+      "model": "XGBoost",
+      "workers": 8,
+      "model_threads": 1,
+      "elapsed_seconds": 137.82410079998954,
+      "cpu_percent": 25.6,
+      "ram_mb": 18790.62109375,
+      "num_success": 0,
+      "num_failed": 10,
+      "errors": [
+        {
+          "wolf": 4,
+          "params": {
+            "n_estimators": 162,
+            "max_depth": 9,
+            "learning_rate": 0.22598102521326696,
+            "subsample": 0.987003892973684,
+            "colsample_bytree": 0.7303301432552608,
+            "min_child_weight": 4,
+            "gamma": 2.3477790563790397
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 4, n_samples_fit = 3, n_samples = 3"
+        },
+        {
+          "wolf": 5,
+          "params": {
+            "n_estimators": 176,
+            "max_depth": 4,
+            "learning_rate": 0.14795442860552077,
+            "subsample": 0.6907637396203536,
+            "colsample_bytree": 0.867925597873004,
+            "min_child_weight": 5,
+            "gamma": 4.163390980289187
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 4, n_samples_fit = 3, n_samples = 3"
+        },
+        {
+          "wolf": 7,
+          "params": {
+            "n_estimators": 156,
+            "max_depth": 5,
+            "learning_rate": 0.012135058227791599,
+            "subsample": 0.9147697510008553,
+            "colsample_bytree": 0.8659403426368129,
+            "min_child_weight": 7,
+            "gamma": 3.9036451551098397
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 4, n_samples_fit = 3, n_samples = 3"
+        },
+        {
+          "wolf": 2,
+          "params": {
+            "n_estimators": 277,
+            "max_depth": 5,
+            "learning_rate": 0.1708295882345921,
+            "subsample": 0.6255269024416701,
+            "colsample_bytree": 0.9310524687970329,
+            "min_child_weight": 7,
+            "gamma": 3.7904387004268694
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 4, n_samples_fit = 3, n_samples = 3"
+        },
+        {
+          "wolf": 6,
+          "params": {
+            "n_estimators": 380,
+            "max_depth": 6,
+            "learning_rate": 0.2513553424046083,
+            "subsample": 0.9219057429987207,
+            "colsample_bytree": 0.7549913516120698,
+            "min_child_weight": 4,
+            "gamma": 3.4124775198748774
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 4, n_samples_fit = 3, n_samples = 3"
+        },
+        {
+          "wolf": 0,
+          "params": {
+            "n_estimators": 410,
+            "max_depth": 7,
+            "learning_rate": 0.2589933967743009,
+            "subsample": 0.8789472116237456,
+            "colsample_bytree": 0.6376709391550598,
+            "min_child_weight": 10,
+            "gamma": 3.805698509951765
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 4, n_samples_fit = 3, n_samples = 3"
+        },
+        {
+          "wolf": 3,
+          "params": {
+            "n_estimators": 242,
+            "max_depth": 12,
+            "learning_rate": 0.26900512518343733,
+            "subsample": 0.9113533988295047,
+            "colsample_bytree": 0.677855483140787,
+            "min_child_weight": 5,
+            "gamma": 0.21901882893614388
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 4, n_samples_fit = 3, n_samples = 3"
+        },
+        {
+          "wolf": 1,
+          "params": {
+            "n_estimators": 414,
+            "max_depth": 4,
+            "learning_rate": 0.14061192198971448,
+            "subsample": 0.7483192096930324,
+            "colsample_bytree": 0.9707059955394407,
+            "min_child_weight": 7,
+            "gamma": 4.113808066354149
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 4, n_samples_fit = 3, n_samples = 3"
+        },
+        {
+          "wolf": 8,
+          "params": {
+            "n_estimators": 284,
+            "max_depth": 8,
+            "learning_rate": 0.05054112945702066,
+            "subsample": 0.6458120294143893,
+            "colsample_bytree": 0.8673611847161886,
+            "min_child_weight": 5,
+            "gamma": 2.826180532405944
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 4, n_samples_fit = 3, n_samples = 3"
+        },
+        {
+          "wolf": 9,
+          "params": {
+            "n_estimators": 406,
+            "max_depth": 9,
+            "learning_rate": 0.1705380261908188,
+            "subsample": 0.8236828642981654,
+            "colsample_bytree": 0.7215800392250449,
+            "min_child_weight": 1,
+            "gamma": 2.183586946161812
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 4, n_samples_fit = 3, n_samples = 3"
+        }
+      ],
+      "status": "partial_failure"
+    },
+    {
+      "model": "XGBoost",
+      "workers": 10,
+      "model_threads": 1,
+      "elapsed_seconds": 139.681474099998,
+      "cpu_percent": 20.2,
+      "ram_mb": 17090.17578125,
+      "num_success": 0,
+      "num_failed": 10,
+      "errors": [
+        {
+          "wolf": 4,
+          "params": {
+            "n_estimators": 162,
+            "max_depth": 9,
+            "learning_rate": 0.22598102521326696,
+            "subsample": 0.987003892973684,
+            "colsample_bytree": 0.7303301432552608,
+            "min_child_weight": 4,
+            "gamma": 2.3477790563790397
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 4, n_samples_fit = 3, n_samples = 3"
+        },
+        {
+          "wolf": 5,
+          "params": {
+            "n_estimators": 176,
+            "max_depth": 4,
+            "learning_rate": 0.14795442860552077,
+            "subsample": 0.6907637396203536,
+            "colsample_bytree": 0.867925597873004,
+            "min_child_weight": 5,
+            "gamma": 4.163390980289187
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 4, n_samples_fit = 3, n_samples = 3"
+        },
+        {
+          "wolf": 7,
+          "params": {
+            "n_estimators": 156,
+            "max_depth": 5,
+            "learning_rate": 0.012135058227791599,
+            "subsample": 0.9147697510008553,
+            "colsample_bytree": 0.8659403426368129,
+            "min_child_weight": 7,
+            "gamma": 3.9036451551098397
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 4, n_samples_fit = 3, n_samples = 3"
+        },
+        {
+          "wolf": 2,
+          "params": {
+            "n_estimators": 277,
+            "max_depth": 5,
+            "learning_rate": 0.1708295882345921,
+            "subsample": 0.6255269024416701,
+            "colsample_bytree": 0.9310524687970329,
+            "min_child_weight": 7,
+            "gamma": 3.7904387004268694
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 4, n_samples_fit = 3, n_samples = 3"
+        },
+        {
+          "wolf": 6,
+          "params": {
+            "n_estimators": 380,
+            "max_depth": 6,
+            "learning_rate": 0.2513553424046083,
+            "subsample": 0.9219057429987207,
+            "colsample_bytree": 0.7549913516120698,
+            "min_child_weight": 4,
+            "gamma": 3.4124775198748774
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 4, n_samples_fit = 3, n_samples = 3"
+        },
+        {
+          "wolf": 0,
+          "params": {
+            "n_estimators": 410,
+            "max_depth": 7,
+            "learning_rate": 0.2589933967743009,
+            "subsample": 0.8789472116237456,
+            "colsample_bytree": 0.6376709391550598,
+            "min_child_weight": 10,
+            "gamma": 3.805698509951765
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 4, n_samples_fit = 3, n_samples = 3"
+        },
+        {
+          "wolf": 3,
+          "params": {
+            "n_estimators": 242,
+            "max_depth": 12,
+            "learning_rate": 0.26900512518343733,
+            "subsample": 0.9113533988295047,
+            "colsample_bytree": 0.677855483140787,
+            "min_child_weight": 5,
+            "gamma": 0.21901882893614388
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 4, n_samples_fit = 3, n_samples = 3"
+        },
+        {
+          "wolf": 9,
+          "params": {
+            "n_estimators": 406,
+            "max_depth": 9,
+            "learning_rate": 0.1705380261908188,
+            "subsample": 0.8236828642981654,
+            "colsample_bytree": 0.7215800392250449,
+            "min_child_weight": 1,
+            "gamma": 2.183586946161812
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 4, n_samples_fit = 3, n_samples = 3"
+        },
+        {
+          "wolf": 1,
+          "params": {
+            "n_estimators": 414,
+            "max_depth": 4,
+            "learning_rate": 0.14061192198971448,
+            "subsample": 0.7483192096930324,
+            "colsample_bytree": 0.9707059955394407,
+            "min_child_weight": 7,
+            "gamma": 4.113808066354149
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 4, n_samples_fit = 3, n_samples = 3"
+        },
+        {
+          "wolf": 8,
+          "params": {
+            "n_estimators": 284,
+            "max_depth": 8,
+            "learning_rate": 0.05054112945702066,
+            "subsample": 0.6458120294143893,
+            "colsample_bytree": 0.8673611847161886,
+            "min_child_weight": 5,
+            "gamma": 2.826180532405944
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 4, n_samples_fit = 3, n_samples = 3"
+        }
+      ],
+      "status": "partial_failure"
+    },
+    {
+      "model": "XGBoost",
+      "workers": 2,
+      "model_threads": 8,
+      "elapsed_seconds": 139.3760609000019,
+      "cpu_percent": 15.6,
+      "ram_mb": 16947.97265625,
+      "num_success": 0,
+      "num_failed": 10,
+      "errors": [
+        {
+          "wolf": 0,
+          "params": {
+            "n_estimators": 410,
+            "max_depth": 7,
+            "learning_rate": 0.2589933967743009,
+            "subsample": 0.8789472116237456,
+            "colsample_bytree": 0.6376709391550598,
+            "min_child_weight": 10,
+            "gamma": 3.805698509951765
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 4, n_samples_fit = 3, n_samples = 3"
+        },
+        {
+          "wolf": 1,
+          "params": {
+            "n_estimators": 414,
+            "max_depth": 4,
+            "learning_rate": 0.14061192198971448,
+            "subsample": 0.7483192096930324,
+            "colsample_bytree": 0.9707059955394407,
+            "min_child_weight": 7,
+            "gamma": 4.113808066354149
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 4, n_samples_fit = 3, n_samples = 3"
+        },
+        {
+          "wolf": 2,
+          "params": {
+            "n_estimators": 277,
+            "max_depth": 5,
+            "learning_rate": 0.1708295882345921,
+            "subsample": 0.6255269024416701,
+            "colsample_bytree": 0.9310524687970329,
+            "min_child_weight": 7,
+            "gamma": 3.7904387004268694
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 4, n_samples_fit = 3, n_samples = 3"
+        },
+        {
+          "wolf": 3,
+          "params": {
+            "n_estimators": 242,
+            "max_depth": 12,
+            "learning_rate": 0.26900512518343733,
+            "subsample": 0.9113533988295047,
+            "colsample_bytree": 0.677855483140787,
+            "min_child_weight": 5,
+            "gamma": 0.21901882893614388
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 4, n_samples_fit = 3, n_samples = 3"
+        },
+        {
+          "wolf": 4,
+          "params": {
+            "n_estimators": 162,
+            "max_depth": 9,
+            "learning_rate": 0.22598102521326696,
+            "subsample": 0.987003892973684,
+            "colsample_bytree": 0.7303301432552608,
+            "min_child_weight": 4,
+            "gamma": 2.3477790563790397
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 4, n_samples_fit = 3, n_samples = 3"
+        },
+        {
+          "wolf": 5,
+          "params": {
+            "n_estimators": 176,
+            "max_depth": 4,
+            "learning_rate": 0.14795442860552077,
+            "subsample": 0.6907637396203536,
+            "colsample_bytree": 0.867925597873004,
+            "min_child_weight": 5,
+            "gamma": 4.163390980289187
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 4, n_samples_fit = 3, n_samples = 3"
+        },
+        {
+          "wolf": 6,
+          "params": {
+            "n_estimators": 380,
+            "max_depth": 6,
+            "learning_rate": 0.2513553424046083,
+            "subsample": 0.9219057429987207,
+            "colsample_bytree": 0.7549913516120698,
+            "min_child_weight": 4,
+            "gamma": 3.4124775198748774
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 4, n_samples_fit = 3, n_samples = 3"
+        },
+        {
+          "wolf": 7,
+          "params": {
+            "n_estimators": 156,
+            "max_depth": 5,
+            "learning_rate": 0.012135058227791599,
+            "subsample": 0.9147697510008553,
+            "colsample_bytree": 0.8659403426368129,
+            "min_child_weight": 7,
+            "gamma": 3.9036451551098397
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 4, n_samples_fit = 3, n_samples = 3"
+        },
+        {
+          "wolf": 8,
+          "params": {
+            "n_estimators": 284,
+            "max_depth": 8,
+            "learning_rate": 0.05054112945702066,
+            "subsample": 0.6458120294143893,
+            "colsample_bytree": 0.8673611847161886,
+            "min_child_weight": 5,
+            "gamma": 2.826180532405944
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 4, n_samples_fit = 3, n_samples = 3"
+        },
+        {
+          "wolf": 9,
+          "params": {
+            "n_estimators": 406,
+            "max_depth": 9,
+            "learning_rate": 0.1705380261908188,
+            "subsample": 0.8236828642981654,
+            "colsample_bytree": 0.7215800392250449,
+            "min_child_weight": 1,
+            "gamma": 2.183586946161812
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 4, n_samples_fit = 3, n_samples = 3"
+        }
+      ],
+      "status": "partial_failure"
+    },
+    {
+      "model": "XGBoost",
+      "workers": 1,
+      "model_threads": 12,
+      "elapsed_seconds": 175.6661848000076,
+      "cpu_percent": 19.6,
+      "ram_mb": 17084.40625,
+      "num_success": 0,
+      "num_failed": 10,
+      "errors": [
+        {
+          "wolf": 0,
+          "params": {
+            "n_estimators": 410,
+            "max_depth": 7,
+            "learning_rate": 0.2589933967743009,
+            "subsample": 0.8789472116237456,
+            "colsample_bytree": 0.6376709391550598,
+            "min_child_weight": 10,
+            "gamma": 3.805698509951765
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 4, n_samples_fit = 3, n_samples = 3"
+        },
+        {
+          "wolf": 1,
+          "params": {
+            "n_estimators": 414,
+            "max_depth": 4,
+            "learning_rate": 0.14061192198971448,
+            "subsample": 0.7483192096930324,
+            "colsample_bytree": 0.9707059955394407,
+            "min_child_weight": 7,
+            "gamma": 4.113808066354149
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 4, n_samples_fit = 3, n_samples = 3"
+        },
+        {
+          "wolf": 2,
+          "params": {
+            "n_estimators": 277,
+            "max_depth": 5,
+            "learning_rate": 0.1708295882345921,
+            "subsample": 0.6255269024416701,
+            "colsample_bytree": 0.9310524687970329,
+            "min_child_weight": 7,
+            "gamma": 3.7904387004268694
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 4, n_samples_fit = 3, n_samples = 3"
+        },
+        {
+          "wolf": 3,
+          "params": {
+            "n_estimators": 242,
+            "max_depth": 12,
+            "learning_rate": 0.26900512518343733,
+            "subsample": 0.9113533988295047,
+            "colsample_bytree": 0.677855483140787,
+            "min_child_weight": 5,
+            "gamma": 0.21901882893614388
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 4, n_samples_fit = 3, n_samples = 3"
+        },
+        {
+          "wolf": 4,
+          "params": {
+            "n_estimators": 162,
+            "max_depth": 9,
+            "learning_rate": 0.22598102521326696,
+            "subsample": 0.987003892973684,
+            "colsample_bytree": 0.7303301432552608,
+            "min_child_weight": 4,
+            "gamma": 2.3477790563790397
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 4, n_samples_fit = 3, n_samples = 3"
+        },
+        {
+          "wolf": 5,
+          "params": {
+            "n_estimators": 176,
+            "max_depth": 4,
+            "learning_rate": 0.14795442860552077,
+            "subsample": 0.6907637396203536,
+            "colsample_bytree": 0.867925597873004,
+            "min_child_weight": 5,
+            "gamma": 4.163390980289187
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 4, n_samples_fit = 3, n_samples = 3"
+        },
+        {
+          "wolf": 6,
+          "params": {
+            "n_estimators": 380,
+            "max_depth": 6,
+            "learning_rate": 0.2513553424046083,
+            "subsample": 0.9219057429987207,
+            "colsample_bytree": 0.7549913516120698,
+            "min_child_weight": 4,
+            "gamma": 3.4124775198748774
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 4, n_samples_fit = 3, n_samples = 3"
+        },
+        {
+          "wolf": 7,
+          "params": {
+            "n_estimators": 156,
+            "max_depth": 5,
+            "learning_rate": 0.012135058227791599,
+            "subsample": 0.9147697510008553,
+            "colsample_bytree": 0.8659403426368129,
+            "min_child_weight": 7,
+            "gamma": 3.9036451551098397
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 4, n_samples_fit = 3, n_samples = 3"
+        },
+        {
+          "wolf": 8,
+          "params": {
+            "n_estimators": 284,
+            "max_depth": 8,
+            "learning_rate": 0.05054112945702066,
+            "subsample": 0.6458120294143893,
+            "colsample_bytree": 0.8673611847161886,
+            "min_child_weight": 5,
+            "gamma": 2.826180532405944
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 4, n_samples_fit = 3, n_samples = 3"
+        },
+        {
+          "wolf": 9,
+          "params": {
+            "n_estimators": 406,
+            "max_depth": 9,
+            "learning_rate": 0.1705380261908188,
+            "subsample": 0.8236828642981654,
+            "colsample_bytree": 0.7215800392250449,
+            "min_child_weight": 1,
+            "gamma": 2.183586946161812
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 4, n_samples_fit = 3, n_samples = 3"
+        }
+      ],
+      "status": "partial_failure"
+    },
+    {
+      "model": "DT",
+      "workers": 1,
+      "model_threads": 4,
+      "elapsed_seconds": 89.81544869999925,
+      "cpu_percent": 16.3,
+      "ram_mb": 17317.73046875,
+      "num_success": 0,
+      "num_failed": 10,
+      "errors": [
+        {
+          "wolf": 0,
+          "params": {
+            "max_depth": 24,
+            "min_samples_split": 10,
+            "min_samples_leaf": 9,
+            "criterion": "entropy"
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 4, n_samples_fit = 3, n_samples = 3"
+        },
+        {
+          "wolf": 1,
+          "params": {
+            "max_depth": 6,
+            "min_samples_split": 20,
+            "min_samples_leaf": 8,
+            "criterion": "entropy"
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 4, n_samples_fit = 3, n_samples = 3"
+        },
+        {
+          "wolf": 2,
+          "params": {
+            "max_depth": 6,
+            "min_samples_split": 10,
+            "min_samples_leaf": 4,
+            "criterion": "entropy"
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 4, n_samples_fit = 3, n_samples = 3"
+        },
+        {
+          "wolf": 3,
+          "params": {
+            "max_depth": 20,
+            "min_samples_split": 17,
+            "min_samples_leaf": 5,
+            "criterion": "gini"
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 4, n_samples_fit = 3, n_samples = 3"
+        },
+        {
+          "wolf": 4,
+          "params": {
+            "max_depth": 18,
+            "min_samples_split": 3,
+            "min_samples_leaf": 8,
+            "criterion": "entropy"
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 4, n_samples_fit = 3, n_samples = 3"
+        },
+        {
+          "wolf": 5,
+          "params": {
+            "max_depth": 23,
+            "min_samples_split": 8,
+            "min_samples_leaf": 10,
+            "criterion": "entropy"
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 4, n_samples_fit = 3, n_samples = 3"
+        },
+        {
+          "wolf": 6,
+          "params": {
+            "max_depth": 24,
+            "min_samples_split": 6,
+            "min_samples_leaf": 5,
+            "criterion": "gini"
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 4, n_samples_fit = 3, n_samples = 3"
+        },
+        {
+          "wolf": 7,
+          "params": {
+            "max_depth": 7,
+            "min_samples_split": 14,
+            "min_samples_leaf": 8,
+            "criterion": "entropy"
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 4, n_samples_fit = 3, n_samples = 3"
+        },
+        {
+          "wolf": 8,
+          "params": {
+            "max_depth": 12,
+            "min_samples_split": 9,
+            "min_samples_leaf": 5,
+            "criterion": "gini"
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 4, n_samples_fit = 3, n_samples = 3"
+        },
+        {
+          "wolf": 9,
+          "params": {
+            "max_depth": 7,
+            "min_samples_split": 11,
+            "min_samples_leaf": 3,
+            "criterion": "entropy"
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 4, n_samples_fit = 3, n_samples = 3"
+        }
+      ],
+      "status": "partial_failure"
+    },
+    {
+      "model": "DT",
+      "workers": 4,
+      "model_threads": 4,
+      "elapsed_seconds": 67.05734099999245,
+      "cpu_percent": 28.6,
+      "ram_mb": 16853.92578125,
+      "num_success": 0,
+      "num_failed": 10,
+      "errors": [
+        {
+          "wolf": 2,
+          "params": {
+            "max_depth": 6,
+            "min_samples_split": 10,
+            "min_samples_leaf": 4,
+            "criterion": "entropy"
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 4, n_samples_fit = 3, n_samples = 3"
+        },
+        {
+          "wolf": 1,
+          "params": {
+            "max_depth": 6,
+            "min_samples_split": 20,
+            "min_samples_leaf": 8,
+            "criterion": "entropy"
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 4, n_samples_fit = 3, n_samples = 3"
+        },
+        {
+          "wolf": 3,
+          "params": {
+            "max_depth": 20,
+            "min_samples_split": 17,
+            "min_samples_leaf": 5,
+            "criterion": "gini"
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 4, n_samples_fit = 3, n_samples = 3"
+        },
+        {
+          "wolf": 0,
+          "params": {
+            "max_depth": 24,
+            "min_samples_split": 10,
+            "min_samples_leaf": 9,
+            "criterion": "entropy"
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 4, n_samples_fit = 3, n_samples = 3"
+        },
+        {
+          "wolf": 5,
+          "params": {
+            "max_depth": 23,
+            "min_samples_split": 8,
+            "min_samples_leaf": 10,
+            "criterion": "entropy"
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 4, n_samples_fit = 3, n_samples = 3"
+        },
+        {
+          "wolf": 4,
+          "params": {
+            "max_depth": 18,
+            "min_samples_split": 3,
+            "min_samples_leaf": 8,
+            "criterion": "entropy"
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 4, n_samples_fit = 3, n_samples = 3"
+        },
+        {
+          "wolf": 7,
+          "params": {
+            "max_depth": 7,
+            "min_samples_split": 14,
+            "min_samples_leaf": 8,
+            "criterion": "entropy"
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 4, n_samples_fit = 3, n_samples = 3"
+        },
+        {
+          "wolf": 6,
+          "params": {
+            "max_depth": 24,
+            "min_samples_split": 6,
+            "min_samples_leaf": 5,
+            "criterion": "gini"
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 4, n_samples_fit = 3, n_samples = 3"
+        },
+        {
+          "wolf": 9,
+          "params": {
+            "max_depth": 7,
+            "min_samples_split": 11,
+            "min_samples_leaf": 3,
+            "criterion": "entropy"
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 4, n_samples_fit = 3, n_samples = 3"
+        },
+        {
+          "wolf": 8,
+          "params": {
+            "max_depth": 12,
+            "min_samples_split": 9,
+            "min_samples_leaf": 5,
+            "criterion": "gini"
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 4, n_samples_fit = 3, n_samples = 3"
+        }
+      ],
+      "status": "partial_failure"
+    },
+    {
+      "model": "DT",
+      "workers": 8,
+      "model_threads": 1,
+      "elapsed_seconds": 66.63626310000836,
+      "cpu_percent": 15.3,
+      "ram_mb": 16993.46875,
+      "num_success": 0,
+      "num_failed": 10,
+      "errors": [
+        {
+          "wolf": 2,
+          "params": {
+            "max_depth": 6,
+            "min_samples_split": 10,
+            "min_samples_leaf": 4,
+            "criterion": "entropy"
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 4, n_samples_fit = 3, n_samples = 3"
+        },
+        {
+          "wolf": 1,
+          "params": {
+            "max_depth": 6,
+            "min_samples_split": 20,
+            "min_samples_leaf": 8,
+            "criterion": "entropy"
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 4, n_samples_fit = 3, n_samples = 3"
+        },
+        {
+          "wolf": 7,
+          "params": {
+            "max_depth": 7,
+            "min_samples_split": 14,
+            "min_samples_leaf": 8,
+            "criterion": "entropy"
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 4, n_samples_fit = 3, n_samples = 3"
+        },
+        {
+          "wolf": 3,
+          "params": {
+            "max_depth": 20,
+            "min_samples_split": 17,
+            "min_samples_leaf": 5,
+            "criterion": "gini"
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 4, n_samples_fit = 3, n_samples = 3"
+        },
+        {
+          "wolf": 0,
+          "params": {
+            "max_depth": 24,
+            "min_samples_split": 10,
+            "min_samples_leaf": 9,
+            "criterion": "entropy"
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 4, n_samples_fit = 3, n_samples = 3"
+        },
+        {
+          "wolf": 4,
+          "params": {
+            "max_depth": 18,
+            "min_samples_split": 3,
+            "min_samples_leaf": 8,
+            "criterion": "entropy"
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 4, n_samples_fit = 3, n_samples = 3"
+        },
+        {
+          "wolf": 6,
+          "params": {
+            "max_depth": 24,
+            "min_samples_split": 6,
+            "min_samples_leaf": 5,
+            "criterion": "gini"
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 4, n_samples_fit = 3, n_samples = 3"
+        },
+        {
+          "wolf": 5,
+          "params": {
+            "max_depth": 23,
+            "min_samples_split": 8,
+            "min_samples_leaf": 10,
+            "criterion": "entropy"
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 4, n_samples_fit = 3, n_samples = 3"
+        },
+        {
+          "wolf": 9,
+          "params": {
+            "max_depth": 7,
+            "min_samples_split": 11,
+            "min_samples_leaf": 3,
+            "criterion": "entropy"
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 4, n_samples_fit = 3, n_samples = 3"
+        },
+        {
+          "wolf": 8,
+          "params": {
+            "max_depth": 12,
+            "min_samples_split": 9,
+            "min_samples_leaf": 5,
+            "criterion": "gini"
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 4, n_samples_fit = 3, n_samples = 3"
+        }
+      ],
+      "status": "partial_failure"
+    },
+    {
+      "model": "DT",
+      "workers": 10,
+      "model_threads": 1,
+      "elapsed_seconds": 65.18322839999746,
+      "cpu_percent": 17.6,
+      "ram_mb": 16799.9140625,
+      "num_success": 0,
+      "num_failed": 10,
+      "errors": [
+        {
+          "wolf": 1,
+          "params": {
+            "max_depth": 6,
+            "min_samples_split": 20,
+            "min_samples_leaf": 8,
+            "criterion": "entropy"
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 4, n_samples_fit = 3, n_samples = 3"
+        },
+        {
+          "wolf": 2,
+          "params": {
+            "max_depth": 6,
+            "min_samples_split": 10,
+            "min_samples_leaf": 4,
+            "criterion": "entropy"
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 4, n_samples_fit = 3, n_samples = 3"
+        },
+        {
+          "wolf": 7,
+          "params": {
+            "max_depth": 7,
+            "min_samples_split": 14,
+            "min_samples_leaf": 8,
+            "criterion": "entropy"
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 4, n_samples_fit = 3, n_samples = 3"
+        },
+        {
+          "wolf": 9,
+          "params": {
+            "max_depth": 7,
+            "min_samples_split": 11,
+            "min_samples_leaf": 3,
+            "criterion": "entropy"
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 4, n_samples_fit = 3, n_samples = 3"
+        },
+        {
+          "wolf": 8,
+          "params": {
+            "max_depth": 12,
+            "min_samples_split": 9,
+            "min_samples_leaf": 5,
+            "criterion": "gini"
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 4, n_samples_fit = 3, n_samples = 3"
+        },
+        {
+          "wolf": 4,
+          "params": {
+            "max_depth": 18,
+            "min_samples_split": 3,
+            "min_samples_leaf": 8,
+            "criterion": "entropy"
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 4, n_samples_fit = 3, n_samples = 3"
+        },
+        {
+          "wolf": 3,
+          "params": {
+            "max_depth": 20,
+            "min_samples_split": 17,
+            "min_samples_leaf": 5,
+            "criterion": "gini"
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 4, n_samples_fit = 3, n_samples = 3"
+        },
+        {
+          "wolf": 6,
+          "params": {
+            "max_depth": 24,
+            "min_samples_split": 6,
+            "min_samples_leaf": 5,
+            "criterion": "gini"
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 4, n_samples_fit = 3, n_samples = 3"
+        },
+        {
+          "wolf": 0,
+          "params": {
+            "max_depth": 24,
+            "min_samples_split": 10,
+            "min_samples_leaf": 9,
+            "criterion": "entropy"
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 4, n_samples_fit = 3, n_samples = 3"
+        },
+        {
+          "wolf": 5,
+          "params": {
+            "max_depth": 23,
+            "min_samples_split": 8,
+            "min_samples_leaf": 10,
+            "criterion": "entropy"
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 4, n_samples_fit = 3, n_samples = 3"
+        }
+      ],
+      "status": "partial_failure"
+    },
+    {
+      "model": "RF",
+      "workers": 1,
+      "model_threads": 4,
+      "elapsed_seconds": 313.05524760000117,
+      "cpu_percent": 15.1,
+      "ram_mb": 17820.43359375,
+      "num_success": 0,
+      "num_failed": 10,
+      "errors": [
+        {
+          "wolf": 0,
+          "params": {
+            "n_estimators": 410,
+            "max_depth": 16,
+            "min_samples_split": 17,
+            "min_samples_leaf": 7,
+            "max_features": "sqrt"
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 4, n_samples_fit = 3, n_samples = 3"
+        },
+        {
+          "wolf": 1,
+          "params": {
+            "n_estimators": 490,
+            "max_depth": 24,
+            "min_samples_split": 16,
+            "min_samples_leaf": 2,
+            "max_features": "log2"
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 4, n_samples_fit = 3, n_samples = 3"
+        },
+        {
+          "wolf": 2,
+          "params": {
+            "n_estimators": 248,
+            "max_depth": 28,
+            "min_samples_split": 14,
+            "min_samples_leaf": 8,
+            "max_features": "log2"
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 4, n_samples_fit = 3, n_samples = 3"
+        },
+        {
+          "wolf": 3,
+          "params": {
+            "n_estimators": 191,
+            "max_depth": 19,
+            "min_samples_split": 3,
+            "min_samples_leaf": 8,
+            "max_features": "log2"
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 4, n_samples_fit = 3, n_samples = 3"
+        },
+        {
+          "wolf": 4,
+          "params": {
+            "n_estimators": 403,
+            "max_depth": 14,
+            "min_samples_split": 19,
+            "min_samples_leaf": 9,
+            "max_features": 0.5
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 4, n_samples_fit = 3, n_samples = 3"
+        },
+        {
+          "wolf": 5,
+          "params": {
+            "n_estimators": 178,
+            "max_depth": 17,
+            "min_samples_split": 3,
+            "min_samples_leaf": 2,
+            "max_features": "log2"
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 4, n_samples_fit = 3, n_samples = 3"
+        },
+        {
+          "wolf": 6,
+          "params": {
+            "n_estimators": 398,
+            "max_depth": 29,
+            "min_samples_split": 8,
+            "min_samples_leaf": 4,
+            "max_features": "log2"
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 4, n_samples_fit = 3, n_samples = 3"
+        },
+        {
+          "wolf": 7,
+          "params": {
+            "n_estimators": 176,
+            "max_depth": 8,
+            "min_samples_split": 11,
+            "min_samples_leaf": 3,
+            "max_features": "log2"
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 4, n_samples_fit = 3, n_samples = 3"
+        },
+        {
+          "wolf": 8,
+          "params": {
+            "n_estimators": 275,
+            "max_depth": 26,
+            "min_samples_split": 15,
+            "min_samples_leaf": 4,
+            "max_features": 0.5
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 4, n_samples_fit = 3, n_samples = 3"
+        },
+        {
+          "wolf": 9,
+          "params": {
+            "n_estimators": 422,
+            "max_depth": 15,
+            "min_samples_split": 7,
+            "min_samples_leaf": 7,
+            "max_features": "sqrt"
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 4, n_samples_fit = 3, n_samples = 3"
+        }
+      ],
+      "status": "partial_failure"
+    },
+    {
+      "model": "RF",
+      "workers": 4,
+      "model_threads": 4,
+      "elapsed_seconds": 302.0714261000103,
+      "cpu_percent": 20.1,
+      "ram_mb": 17602.04296875,
+      "num_success": 0,
+      "num_failed": 10,
+      "errors": [
+        {
+          "wolf": 3,
+          "params": {
+            "n_estimators": 191,
+            "max_depth": 19,
+            "min_samples_split": 3,
+            "min_samples_leaf": 8,
+            "max_features": "log2"
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 4, n_samples_fit = 3, n_samples = 3"
+        },
+        {
+          "wolf": 2,
+          "params": {
+            "n_estimators": 248,
+            "max_depth": 28,
+            "min_samples_split": 14,
+            "min_samples_leaf": 8,
+            "max_features": "log2"
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 4, n_samples_fit = 3, n_samples = 3"
+        },
+        {
+          "wolf": 0,
+          "params": {
+            "n_estimators": 410,
+            "max_depth": 16,
+            "min_samples_split": 17,
+            "min_samples_leaf": 7,
+            "max_features": "sqrt"
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 4, n_samples_fit = 3, n_samples = 3"
+        },
+        {
+          "wolf": 1,
+          "params": {
+            "n_estimators": 490,
+            "max_depth": 24,
+            "min_samples_split": 16,
+            "min_samples_leaf": 2,
+            "max_features": "log2"
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 4, n_samples_fit = 3, n_samples = 3"
+        },
+        {
+          "wolf": 5,
+          "params": {
+            "n_estimators": 178,
+            "max_depth": 17,
+            "min_samples_split": 3,
+            "min_samples_leaf": 2,
+            "max_features": "log2"
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 4, n_samples_fit = 3, n_samples = 3"
+        },
+        {
+          "wolf": 7,
+          "params": {
+            "n_estimators": 176,
+            "max_depth": 8,
+            "min_samples_split": 11,
+            "min_samples_leaf": 3,
+            "max_features": "log2"
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 4, n_samples_fit = 3, n_samples = 3"
+        },
+        {
+          "wolf": 6,
+          "params": {
+            "n_estimators": 398,
+            "max_depth": 29,
+            "min_samples_split": 8,
+            "min_samples_leaf": 4,
+            "max_features": "log2"
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 4, n_samples_fit = 3, n_samples = 3"
+        },
+        {
+          "wolf": 9,
+          "params": {
+            "n_estimators": 422,
+            "max_depth": 15,
+            "min_samples_split": 7,
+            "min_samples_leaf": 7,
+            "max_features": "sqrt"
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 4, n_samples_fit = 3, n_samples = 3"
+        },
+        {
+          "wolf": 4,
+          "params": {
+            "n_estimators": 403,
+            "max_depth": 14,
+            "min_samples_split": 19,
+            "min_samples_leaf": 9,
+            "max_features": 0.5
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 4, n_samples_fit = 3, n_samples = 3"
+        },
+        {
+          "wolf": 8,
+          "params": {
+            "n_estimators": 275,
+            "max_depth": 26,
+            "min_samples_split": 15,
+            "min_samples_leaf": 4,
+            "max_features": 0.5
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 4, n_samples_fit = 3, n_samples = 3"
+        }
+      ],
+      "status": "partial_failure"
+    },
+    {
+      "model": "RF",
+      "workers": 8,
+      "model_threads": 1,
+      "elapsed_seconds": 343.5310121999937,
+      "cpu_percent": 26.0,
+      "ram_mb": 17689.32421875,
+      "num_success": 0,
+      "num_failed": 10,
+      "errors": [
+        {
+          "wolf": 7,
+          "params": {
+            "n_estimators": 176,
+            "max_depth": 8,
+            "min_samples_split": 11,
+            "min_samples_leaf": 3,
+            "max_features": "log2"
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 4, n_samples_fit = 3, n_samples = 3"
+        },
+        {
+          "wolf": 3,
+          "params": {
+            "n_estimators": 191,
+            "max_depth": 19,
+            "min_samples_split": 3,
+            "min_samples_leaf": 8,
+            "max_features": "log2"
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 4, n_samples_fit = 3, n_samples = 3"
+        },
+        {
+          "wolf": 5,
+          "params": {
+            "n_estimators": 178,
+            "max_depth": 17,
+            "min_samples_split": 3,
+            "min_samples_leaf": 2,
+            "max_features": "log2"
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 4, n_samples_fit = 3, n_samples = 3"
+        },
+        {
+          "wolf": 2,
+          "params": {
+            "n_estimators": 248,
+            "max_depth": 28,
+            "min_samples_split": 14,
+            "min_samples_leaf": 8,
+            "max_features": "log2"
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 4, n_samples_fit = 3, n_samples = 3"
+        },
+        {
+          "wolf": 0,
+          "params": {
+            "n_estimators": 410,
+            "max_depth": 16,
+            "min_samples_split": 17,
+            "min_samples_leaf": 7,
+            "max_features": "sqrt"
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 4, n_samples_fit = 3, n_samples = 3"
+        },
+        {
+          "wolf": 6,
+          "params": {
+            "n_estimators": 398,
+            "max_depth": 29,
+            "min_samples_split": 8,
+            "min_samples_leaf": 4,
+            "max_features": "log2"
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 4, n_samples_fit = 3, n_samples = 3"
+        },
+        {
+          "wolf": 1,
+          "params": {
+            "n_estimators": 490,
+            "max_depth": 24,
+            "min_samples_split": 16,
+            "min_samples_leaf": 2,
+            "max_features": "log2"
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 4, n_samples_fit = 3, n_samples = 3"
+        },
+        {
+          "wolf": 9,
+          "params": {
+            "n_estimators": 422,
+            "max_depth": 15,
+            "min_samples_split": 7,
+            "min_samples_leaf": 7,
+            "max_features": "sqrt"
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 4, n_samples_fit = 3, n_samples = 3"
+        },
+        {
+          "wolf": 4,
+          "params": {
+            "n_estimators": 403,
+            "max_depth": 14,
+            "min_samples_split": 19,
+            "min_samples_leaf": 9,
+            "max_features": 0.5
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 4, n_samples_fit = 3, n_samples = 3"
+        },
+        {
+          "wolf": 8,
+          "params": {
+            "n_estimators": 275,
+            "max_depth": 26,
+            "min_samples_split": 15,
+            "min_samples_leaf": 4,
+            "max_features": 0.5
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 4, n_samples_fit = 3, n_samples = 3"
+        }
+      ],
+      "status": "partial_failure"
+    },
+    {
+      "model": "RF",
+      "workers": 10,
+      "model_threads": 1,
+      "elapsed_seconds": 352.3976640000037,
+      "cpu_percent": 20.1,
+      "ram_mb": 17301.90625,
+      "num_success": 0,
+      "num_failed": 10,
+      "errors": [
+        {
+          "wolf": 7,
+          "params": {
+            "n_estimators": 176,
+            "max_depth": 8,
+            "min_samples_split": 11,
+            "min_samples_leaf": 3,
+            "max_features": "log2"
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 4, n_samples_fit = 3, n_samples = 3"
+        },
+        {
+          "wolf": 3,
+          "params": {
+            "n_estimators": 191,
+            "max_depth": 19,
+            "min_samples_split": 3,
+            "min_samples_leaf": 8,
+            "max_features": "log2"
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 4, n_samples_fit = 3, n_samples = 3"
+        },
+        {
+          "wolf": 5,
+          "params": {
+            "n_estimators": 178,
+            "max_depth": 17,
+            "min_samples_split": 3,
+            "min_samples_leaf": 2,
+            "max_features": "log2"
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 4, n_samples_fit = 3, n_samples = 3"
+        },
+        {
+          "wolf": 2,
+          "params": {
+            "n_estimators": 248,
+            "max_depth": 28,
+            "min_samples_split": 14,
+            "min_samples_leaf": 8,
+            "max_features": "log2"
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 4, n_samples_fit = 3, n_samples = 3"
+        },
+        {
+          "wolf": 9,
+          "params": {
+            "n_estimators": 422,
+            "max_depth": 15,
+            "min_samples_split": 7,
+            "min_samples_leaf": 7,
+            "max_features": "sqrt"
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 4, n_samples_fit = 3, n_samples = 3"
+        },
+        {
+          "wolf": 0,
+          "params": {
+            "n_estimators": 410,
+            "max_depth": 16,
+            "min_samples_split": 17,
+            "min_samples_leaf": 7,
+            "max_features": "sqrt"
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 4, n_samples_fit = 3, n_samples = 3"
+        },
+        {
+          "wolf": 6,
+          "params": {
+            "n_estimators": 398,
+            "max_depth": 29,
+            "min_samples_split": 8,
+            "min_samples_leaf": 4,
+            "max_features": "log2"
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 4, n_samples_fit = 3, n_samples = 3"
+        },
+        {
+          "wolf": 1,
+          "params": {
+            "n_estimators": 490,
+            "max_depth": 24,
+            "min_samples_split": 16,
+            "min_samples_leaf": 2,
+            "max_features": "log2"
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 4, n_samples_fit = 3, n_samples = 3"
+        },
+        {
+          "wolf": 4,
+          "params": {
+            "n_estimators": 403,
+            "max_depth": 14,
+            "min_samples_split": 19,
+            "min_samples_leaf": 9,
+            "max_features": 0.5
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 4, n_samples_fit = 3, n_samples = 3"
+        },
+        {
+          "wolf": 8,
+          "params": {
+            "n_estimators": 275,
+            "max_depth": 26,
+            "min_samples_split": 15,
+            "min_samples_leaf": 4,
+            "max_features": 0.5
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 4, n_samples_fit = 3, n_samples = 3"
+        }
+      ],
+      "status": "partial_failure"
+    },
+    {
+      "model": "SVM",
+      "workers": 1,
+      "model_threads": 4,
+      "elapsed_seconds": 3738.185049199994,
+      "cpu_percent": 18.3,
+      "ram_mb": 16523.49609375,
+      "num_success": 0,
+      "num_failed": 10,
+      "errors": [
+        {
+          "wolf": 0,
+          "params": {
+            "C": 12.468786659075638,
+            "gamma": 0.005695262671673521
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 4, n_samples_fit = 3, n_samples = 3"
+        },
+        {
+          "wolf": 1,
+          "params": {
+            "C": 27.188902645221663,
+            "gamma": 0.06158459876169436
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 4, n_samples_fit = 3, n_samples = 3"
+        },
+        {
+          "wolf": 2,
+          "params": {
+            "C": 0.02380725871895354,
+            "gamma": 0.7988944545350382
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 4, n_samples_fit = 3, n_samples = 3"
+        },
+        {
+          "wolf": 3,
+          "params": {
+            "C": 11.080485964481502,
+            "gamma": 0.1393982177184466
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 4, n_samples_fit = 3, n_samples = 3"
+        },
+        {
+          "wolf": 4,
+          "params": {
+            "C": 0.03254277104330504,
+            "gamma": 0.006332041485861786
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 4, n_samples_fit = 3, n_samples = 3"
+        },
+        {
+          "wolf": 5,
+          "params": {
+            "C": 0.3042230366019293,
+            "gamma": 0.5094011902587736
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 4, n_samples_fit = 3, n_samples = 3"
+        },
+        {
+          "wolf": 6,
+          "params": {
+            "C": 3.7623611419432557,
+            "gamma": 0.19545485073586322
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 4, n_samples_fit = 3, n_samples = 3"
+        },
+        {
+          "wolf": 7,
+          "params": {
+            "C": 0.5938227000013042,
+            "gamma": 0.0008108768226750884
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 4, n_samples_fit = 3, n_samples = 3"
+        },
+        {
+          "wolf": 8,
+          "params": {
+            "C": 1.6532523475753849,
+            "gamma": 0.00017999855738190488
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 4, n_samples_fit = 3, n_samples = 3"
+        },
+        {
+          "wolf": 9,
+          "params": {
+            "C": 20.442061379532987,
+            "gamma": 0.03362463637644078
+          },
+          "error": "Expected n_neighbors <= n_samples_fit, but n_neighbors = 4, n_samples_fit = 3, n_samples = 3"
+        }
+      ],
+      "status": "partial_failure"
+    }
+  ],
+  "xgb_speedups": [
+    {
+      "workers": 4,
+      "threads": 4,
+      "elapsed": 15.080752299996675,
+      "speedup": 43.994489585254065
+    },
+    {
+      "workers": 6,
+      "threads": 2,
+      "elapsed": 15.480982099994435,
+      "speedup": 42.857100131924994
+    },
+    {
+      "workers": 8,
+      "threads": 1,
+      "elapsed": 15.431666200005566,
+      "speedup": 42.99406113383665
+    },
+    {
+      "workers": 10,
+      "threads": 1,
+      "elapsed": 15.660160500003258,
+      "speedup": 42.36674330380343
+    },
+    {
+      "workers": 2,
+      "threads": 8,
+      "elapsed": 15.161317899997812,
+      "speedup": 43.760707636114915
+    },
+    {
+      "workers": 1,
+      "threads": 12,
+      "elapsed": 17.680600100007723,
+      "speedup": 37.52531001477208
+    }
+  ]
+}
