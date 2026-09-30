@@ -267,13 +267,15 @@ def main():
         sample_df = stratified_sample(train_df, n, config["dataset"]["target_column"])
         viable, details = check_sample_viability(sample_df, config)
         details["attempted_sample_size"] = n
-        upsert_measurement({
-            "model": "SAMPLE_VALIDATION",
-            "sample_size": int(n),
-            "status": "success" if viable else "invalid",
-            "details": details,
-            "timestamp": utc_now_iso(),
-        })
+        upsert_measurement(
+            {
+                "model": "SAMPLE_VALIDATION",
+                "sample_size": int(n),
+                "status": "success" if viable else "invalid",
+                "details": details,
+                "timestamp": utc_now_iso(),
+            }
+        )
         if viable:
             chosen_sample = sample_df
             chosen_details = details
