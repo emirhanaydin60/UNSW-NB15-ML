@@ -456,15 +456,86 @@ class NestedCVExperiment:
         if not strategy:
             return X_selected.copy(), y_selected.copy(), before, before.copy(), strategy, "none"
 
+        # Build a diagnostic record and persist it to metadata/diagnostics JSONL
+        diag_dir = self.paths["metadata"] / "diagnostics"
+        diag_dir.mkdir(parents=True, exist_ok=True)
+        diag_file = diag_dir / "balancing_events.jsonl"
+
+        # enrich log_context with selected-features info if present
+        lc = dict(log_context or {})
+        try:
+            inner_cv_seed = None
+            if lc.get("model") is not None and lc.get("outer_fold") is not None:
+                inner_cv_seed = derive_seed(self.base_seed, lc.get("model"), int(lc.get("outer_fold")), "inner_cv")
+        except Exception:
+            inner_cv_seed = None
+
+        base_diag = {
+            "timestamp": utc_now_iso(),
+            "model": lc.get("model"),
+            "phase": lc.get("phase", "outer_cv"),
+            "outer_fold": lc.get("outer_fold"),
+            "inner_fold": lc.get("inner_fold"),
+            "gwo_iteration": lc.get("gwo_iteration"),
+            "wolf_index": lc.get("wolf_index"),
+            "stage_random_state": int(stage_random_state) if stage_random_state is not None else None,
+            "inner_cv_seed": inner_cv_seed,
+            "k_neighbors": int(self.config["smotenc"]["k_neighbors"]),
+            "target_count": int(self.config["smotenc"]["target_count"]),
+            "y_counts_before": before,
+            "targeted_classes": strategy,
+            "selected_categorical_columns": lc.get("selected_categorical_columns"),
+            "selected_features": lc.get("selected_features"),
+            "n_rows_X": int(len(X_selected)),
+            "n_rows_y": int(len(y_selected)),
+        }
+
+        # Persist an effective-run metadata file (best-effort; don't overwrite once present)
+        eff_path = self.paths["metadata"] / "effective_run_metadata.json"
+        if not eff_path.exists():
+            eff_meta = {
+                "config_used": self.config,
+                "base_seed": int(self.base_seed),
+                "dataset_path": self.config.get("dataset", {}).get("train_path"),
+                "sample_size": None,
+                "sampling_seed": None,
+                "outer_inner_seed_example": base_diag.get("inner_cv_seed"),
+                "model": lc.get("model"),
+                "worker_threads": None,
+            }
+            try:
+                atomic_write_json(eff_path, eff_meta)
+            except Exception:
+                # best-effort only
+                pass
+
         if categorical_indices:
-            X_bal, y_bal, before, after, strategy = apply_smotenc(
-                X_selected,
-                y_selected,
-                categorical_feature_indices=categorical_indices,
-                smote_config=self.config["smotenc"],
-                random_state=stage_random_state,
-            )
-            return X_bal, y_bal, before, after, strategy, "smotenc"
+            # SMOTENC path: catch exceptions to persist diagnostics then re-raise
+            try:
+                X_bal, y_bal, before, after, strategy = apply_smotenc(
+                    X_selected,
+                    y_selected,
+                    categorical_feature_indices=categorical_indices,
+                    smote_config=self.config["smotenc"],
+                    random_state=stage_random_state,
+                )
+
+                # augment diag with after counts and method
+                entry = dict(base_diag)
+                entry.update({"balancing_method": "smotenc", "y_counts_after": after, "exception": None})
+                with diag_file.open("a", encoding="utf-8") as f:
+                    f.write(json.dumps(entry, sort_keys=True) + "\n")
+
+                return X_bal, y_bal, before, after, strategy, "smotenc"
+            except Exception as exc:
+                entry = dict(base_diag)
+                entry.update({"balancing_method": "smotenc", "y_counts_after": None, "exception": str(exc)})
+                try:
+                    with diag_file.open("a", encoding="utf-8") as f:
+                        f.write(json.dumps(entry, sort_keys=True) + "\n")
+                except Exception:
+                    pass
+                raise
 
         self.logger.info(
             "SMOTE_USED_BECAUSE_NO_SELECTED_CATEGORICAL_FEATURES",
@@ -597,7 +668,15 @@ class NestedCVExperiment:
                     y_inner_train,
                     cat_indices,
                     stage_random_state=42,
-                    log_context={"model": model_name, "outer_fold": outer_fold, "inner_fold": inner_fold_idx},
+                    log_context={
+                        "model": model_name,
+                        "outer_fold": outer_fold,
+                        "inner_fold": inner_fold_idx,
+                        "gwo_iteration": iteration + 1,
+                        "wolf_index": wolf_idx,
+                        "selected_features": selected_features,
+                        "selected_categorical_columns": selected_categorical_columns,
+                    },
                 )
                 self.logger.info(
                     "Inner balancing completed",
@@ -711,7 +790,12 @@ class NestedCVExperiment:
             y_outer_train.reset_index(drop=True),
             cat_indices,
             stage_random_state=42,
-            log_context={"model": model_name, "outer_fold": outer_fold},
+            log_context={
+                "model": model_name,
+                "outer_fold": outer_fold,
+                "selected_features": selected_features,
+                "selected_categorical_columns": selected_categorical_columns,
+            },
         )
         self._record_class_distribution(
             phase="outer_cv",
@@ -1005,7 +1089,12 @@ class NestedCVExperiment:
                 y_train,
                 cat_indices,
                 stage_random_state=42,
-                log_context={"model": model_name, "phase": "final_train"},
+                log_context={
+                    "model": model_name,
+                    "phase": "final_train",
+                    "selected_features": selected_features,
+                    "selected_categorical_columns": selected_categorical_columns,
+                },
             )
             self._record_class_distribution(
                 phase="final_train",
