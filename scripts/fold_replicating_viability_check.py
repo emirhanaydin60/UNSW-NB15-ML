@@ -38,7 +38,6 @@ from src.preprocessing import FoldPreprocessor, get_selected_categorical_columns
 from src.feature_selection import select_top_features
 from src.utils import derive_seed
 
-
 SAMPLE_OPTIONS = [25000, 50000, 75000, 100000]
 
 
@@ -158,14 +157,16 @@ def check_sample_fold_replicating(sample_df: pd.DataFrame, config: dict[str, Any
                 for cls, cnt in targeted_map.items():
                     imblearn_ok = int(cnt) >= k_neighbors
                     strict_ok = int(cnt) > k_neighbors
-                    fold_info["checks"].append({
-                        "class": cls,
-                        "count_in_inner_train": int(cnt),
-                        "required_min_imblearn": int(k_neighbors),
-                        "required_min_strict": int(k_neighbors) + 1,
-                        "imblearn_boundary_check": bool(imblearn_ok),
-                        "strict_safety_check": bool(strict_ok),
-                    })
+                    fold_info["checks"].append(
+                        {
+                            "class": cls,
+                            "count_in_inner_train": int(cnt),
+                            "required_min_imblearn": int(k_neighbors),
+                            "required_min_strict": int(k_neighbors) + 1,
+                            "imblearn_boundary_check": bool(imblearn_ok),
+                            "strict_safety_check": bool(strict_ok),
+                        }
+                    )
                     if not strict_ok:
                         fold_pass_strict = False
                         overall_pass = False
@@ -194,21 +195,25 @@ def check_sample_fold_replicating(sample_df: pd.DataFrame, config: dict[str, Any
     report["failure_detected_in_targeted_class"] = limiting_info is not None
     report["minimum_targeted_class_count"] = min_targeted_count_all
     if limiting_info is not None:
-        report.update({
-            "minimum_inner_train_count_across_all_folds": min_overall,
-            "limiting_class": limiting_info["limiting_class"],
-            "limiting_outer_fold": limiting_info["limiting_outer_fold"],
-            "limiting_inner_fold": limiting_info["limiting_inner_fold"],
-            "limiting_model": limiting_info.get("model"),
-        })
+        report.update(
+            {
+                "minimum_inner_train_count_across_all_folds": min_overall,
+                "limiting_class": limiting_info["limiting_class"],
+                "limiting_outer_fold": limiting_info["limiting_outer_fold"],
+                "limiting_inner_fold": limiting_info["limiting_inner_fold"],
+                "limiting_model": limiting_info.get("model"),
+            }
+        )
     else:
-        report.update({
-            "minimum_inner_train_count_across_all_folds": None,
-            "limiting_class": None,
-            "limiting_outer_fold": None,
-            "limiting_inner_fold": None,
-            "limiting_model": None,
-        })
+        report.update(
+            {
+                "minimum_inner_train_count_across_all_folds": None,
+                "limiting_class": None,
+                "limiting_outer_fold": None,
+                "limiting_inner_fold": None,
+                "limiting_model": None,
+            }
+        )
 
     # aggregated neighbor-safety results
     report["imblearn_boundary_pass"] = overall_imblearn_pass
