@@ -31,7 +31,7 @@ def synthetic_config(tmp_path):
                 "Worms",
             ],
         },
-        "cv": {"outer_folds": 2, "inner_folds": 2, "shuffle": True},
+        "cv": {"outer_folds": 2, "shuffle": True},
         "feature_selection": {
             "n_estimators": 10,
             "criterion": "gini",
@@ -80,7 +80,6 @@ def synthetic_config(tmp_path):
             "rows_per_class_train": 6,
             "rows_per_class_test": 3,
             "outer_folds": 2,
-            "inner_folds": 2,
             "gwo_population_size": 3,
             "gwo_iterations": 2,
         },

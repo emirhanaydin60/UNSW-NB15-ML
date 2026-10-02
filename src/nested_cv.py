@@ -9,7 +9,7 @@ from typing import Any
 import joblib
 import numpy as np
 import pandas as pd
-from sklearn.model_selection import StratifiedKFold
+from sklearn.model_selection import StratifiedKFold, train_test_split
 
 from src.balancing import apply_smotenc
 from src.checkpoint import CheckpointManager
@@ -88,8 +88,21 @@ class NestedCVExperiment:
         return paths
 
     def _load_or_init_state(self) -> dict[str, Any]:
+        # Validate checkpoint compatibility with the current methodology fingerprint
+        expected_fingerprint = {
+            "outer_folds": int(self.config["cv"]["outer_folds"]),
+            "hpo_validation_size": float(self.config.get("hpo", {}).get("validation_size", 0.20)),
+            "gwo_population": int(self.config.get("gwo", {}).get("population_size", 5)),
+            "gwo_iterations": int(self.config.get("gwo", {}).get("iterations", 10)),
+            "inner_cv": False,
+        }
+
         existing = self.ckpt.load_state()
         if existing is not None:
+            try:
+                self.ckpt.validate_compatibility(expected_fingerprint)
+            except Exception as exc:
+                raise RuntimeError(f"Checkpoint compatibility failure: {exc}")
             self.logger.info("Loaded existing experiment checkpoint state")
             return existing
 
@@ -98,6 +111,7 @@ class NestedCVExperiment:
             "created_at": utc_now_iso(),
             "smoke_test": self.ctx.smoke_test,
             "config_hash": json_hash(self.config),
+            "methodology_fingerprint": expected_fingerprint,
             "completed_outer_models": [],
             "completed_outer_folds": [],
             "outer_feature_selection_done": [],
@@ -253,6 +267,17 @@ class NestedCVExperiment:
             fieldnames=["phase", "outer_fold", "rank", "feature", "importance"],
             key_fields=["phase", "outer_fold", "rank", "feature"],
         )
+
+    def _emit_runtime_event(self, event: dict[str, Any]) -> None:
+        """Append a runtime event record to metadata/runtime_events.jsonl"""
+        path = self.paths["metadata"] / "runtime_events.jsonl"
+        try:
+            path.parent.mkdir(parents=True, exist_ok=True)
+            with path.open("a", encoding="utf-8") as f:
+                f.write(json.dumps(event, sort_keys=True) + "\n")
+        except Exception:
+            # best-effort only; do not fail pipeline for logging issues
+            return
 
     def _record_class_distribution(
         self,
@@ -610,122 +635,150 @@ class NestedCVExperiment:
         X_outer_train_raw: pd.DataFrame,
         y_outer_train: pd.Series,
     ):
-        inner_folds = int(self.config["cv"]["inner_folds"])
-        skf_inner = StratifiedKFold(
-            n_splits=inner_folds,
-            shuffle=bool(self.config["cv"].get("shuffle", True)),
-            random_state=derive_seed(self.base_seed, model_name, outer_fold, "inner_cv"),
-        )
+        # Build a fitness function that uses a single deterministic stratified HPO validation split
+        validation_size = float(self.config.get("hpo", {}).get("validation_size", 0.20))
 
         def fitness_fn(params: dict[str, Any], iteration: int, wolf_idx: int) -> dict[str, float]:
-            ba_scores: list[float] = []
-            f1_scores: list[float] = []
+            # derive deterministic split seed
+            split_seed = derive_seed(self.base_seed, model_name, outer_fold, "hpo_split")
 
-            for inner_fold_idx, (itr, ival) in enumerate(
-                skf_inner.split(X_outer_train_raw, y_outer_train),
-                start=1,
-            ):
-                if set(itr).intersection(set(ival)):
-                    raise AssertionError("Leakage check failed: inner train/val overlap")
+            X_hpo_train_raw, X_hpo_val_raw, y_hpo_train, y_hpo_val = train_test_split(
+                X_outer_train_raw,
+                y_outer_train,
+                test_size=validation_size,
+                stratify=y_outer_train,
+                random_state=split_seed,
+            )
 
-                X_inner_train_raw = X_outer_train_raw.iloc[itr].reset_index(drop=True)
-                y_inner_train = y_outer_train.iloc[itr].reset_index(drop=True)
-                X_inner_val_raw = X_outer_train_raw.iloc[ival].reset_index(drop=True)
-                y_inner_val = y_outer_train.iloc[ival].reset_index(drop=True)
+            if set(X_hpo_train_raw.index).intersection(set(X_hpo_val_raw.index)):
+                raise AssertionError("Leakage check failed: HPO train/val overlap")
 
-                self.state["active_progress"] = {
-                    "phase": "outer_cv",
+            self.state["active_progress"] = {
+                "phase": "outer_cv",
+                "model": model_name,
+                "outer_fold": outer_fold,
+                "inner_fold": None,
+                "gwo_iteration": iteration + 1,
+                "wolf_index": wolf_idx,
+            }
+
+            timings: dict[str, float] = {}
+            t0 = time.perf_counter()
+
+            # preprocessing
+            t_prep0 = time.perf_counter()
+            preproc = FoldPreprocessor(categorical_columns=self.dataset_cfg["categorical_columns"])
+            preproc.fit(X_hpo_train_raw)
+            X_hpo_train_encoded = preproc.transform(X_hpo_train_raw)
+            X_hpo_val_encoded = preproc.transform(X_hpo_val_raw)
+            timings["preprocessing"] = time.perf_counter() - t_prep0
+
+            # feature selection (fit only on HPO-train)
+            t_fs0 = time.perf_counter()
+            fs_seed = 42
+            selected_features, _ = select_top_features(
+                X_hpo_train_encoded,
+                y_hpo_train,
+                config=self.config,
+                random_state=fs_seed,
+            )
+            selected_categorical_columns = get_selected_categorical_columns(
+                selected_features,
+                self.dataset_cfg["categorical_columns"],
+            )
+            timings["feature_selection"] = time.perf_counter() - t_fs0
+
+            X_hpo_train_selected = X_hpo_train_encoded[selected_features].reset_index(drop=True)
+            X_hpo_val_selected = X_hpo_val_encoded[selected_features].reset_index(drop=True)
+
+            # balancing: only fit on HPO-train
+            t_bal0 = time.perf_counter()
+            cat_indices = [i for i, col in enumerate(X_hpo_train_selected.columns) if col in selected_categorical_columns]
+            bal_seed = derive_seed(self.base_seed, "balancing", model_name, outer_fold, iteration, wolf_idx)
+            X_bal, y_bal, before, after, strategy, balancing_method = self._apply_balancing_with_policy(
+                X_hpo_train_selected,
+                y_hpo_train.reset_index(drop=True),
+                cat_indices,
+                stage_random_state=bal_seed,
+                log_context={
                     "model": model_name,
+                    "phase": "outer_cv",
                     "outer_fold": outer_fold,
-                    "inner_fold": inner_fold_idx,
                     "gwo_iteration": iteration + 1,
                     "wolf_index": wolf_idx,
+                    "selected_features": selected_features,
+                    "selected_categorical_columns": selected_categorical_columns,
+                },
+            )
+            timings["balancing"] = time.perf_counter() - t_bal0
+
+            self.logger.info(
+                "HPO balancing completed",
+                extra={"model": model_name, "outer_fold": outer_fold, "wolf": wolf_idx},
+            )
+
+            # model fitting
+            t_fit0 = time.perf_counter()
+            transformer = ModelTransformer(
+                categorical_columns=selected_categorical_columns,
+                scale=model_requires_scaling(model_name),
+            )
+            X_train_proc = transformer.fit_transform(X_bal)
+            X_val_proc = transformer.transform(X_hpo_val_selected)
+
+            y_train_enc = self._encode_y(y_bal)
+            model_seed = derive_seed(self.base_seed, "model", model_name, outer_fold, iteration, wolf_idx)
+            model = build_model(
+                model_name=model_name,
+                params=params,
+                random_state=model_seed,
+                num_classes=len(self.expected_classes),
+            )
+            model.fit(X_train_proc, y_train_enc)
+            timings["model_fit"] = time.perf_counter() - t_fit0
+
+            # validation prediction
+            t_pred0 = time.perf_counter()
+            pred_enc = model.predict(X_val_proc)
+            timings["validation_prediction"] = time.perf_counter() - t_pred0
+            pred = self._decode_y(pred_enc)
+
+            # metric calculation
+            t_metric0 = time.perf_counter()
+            ba, macro_f1 = compute_balanced_accuracy_macro_f1(y_hpo_val.tolist(), pred)
+            timings["metric_calculation"] = time.perf_counter() - t_metric0
+
+            total_duration = time.perf_counter() - t0
+
+            # emit structured runtime event for this candidate evaluation
+            try:
+                event = {
+                    "event": "candidate_evaluation",
+                    "timestamp_start": utc_now_iso(),
+                    "duration_seconds": total_duration,
+                    "model": model_name,
+                    "phase": "gwo_fitness",
+                    "outer_fold": outer_fold,
+                    "gwo_iteration": iteration + 1,
+                    "wolf_index": wolf_idx,
+                    "stage_durations": timings,
+                    "sample_size": int(len(X_outer_train_raw) + len(X_outer_val_raw)),
+                    "n_rows_hpo_train": int(len(X_hpo_train_raw)),
+                    "n_rows_hpo_validation": int(len(X_hpo_val_raw)),
+                    "n_features": int(len(selected_features)),
+                    "workers": int(self.config.get("experiment", {}).get("workers", 1)),
+                    "threads": int(self.config.get("experiment", {}).get("threads", 1)),
+                    "random_state": int(model_seed),
                 }
+                self._emit_runtime_event(event)
+            except Exception:
+                pass
 
-                preproc = FoldPreprocessor(categorical_columns=self.dataset_cfg["categorical_columns"])
-                preproc.fit(X_inner_train_raw)
-                X_inner_train_encoded = preproc.transform(X_inner_train_raw)
-                X_inner_val_encoded = preproc.transform(X_inner_val_raw)
-
-                fs_seed = 42
-                selected_features, _ = select_top_features(
-                    X_inner_train_encoded,
-                    y_inner_train,
-                    config=self.config,
-                    random_state=fs_seed,
-                )
-                selected_categorical_columns = get_selected_categorical_columns(
-                    selected_features,
-                    self.dataset_cfg["categorical_columns"],
-                )
-
-                X_inner_train_selected = X_inner_train_encoded[selected_features].reset_index(drop=True)
-                X_inner_val_selected = X_inner_val_encoded[selected_features].reset_index(drop=True)
-
-                cat_indices = [i for i, col in enumerate(X_inner_train_selected.columns) if col in selected_categorical_columns]
-                X_bal, y_bal, _, _, _, balancing_method = self._apply_balancing_with_policy(
-                    X_inner_train_selected,
-                    y_inner_train,
-                    cat_indices,
-                    stage_random_state=42,
-                    log_context={
-                        "model": model_name,
-                        "outer_fold": outer_fold,
-                        "inner_fold": inner_fold_idx,
-                        "gwo_iteration": iteration + 1,
-                        "wolf_index": wolf_idx,
-                        "selected_features": selected_features,
-                        "selected_categorical_columns": selected_categorical_columns,
-                    },
-                )
-                self.logger.info(
-                    "Inner balancing completed",
-                    extra={
-                        "model": model_name,
-                        "outer_fold": outer_fold,
-                        "inner_fold": inner_fold_idx,
-                        "best_fitness": "-",
-                    },
-                )
-
-                transformer = ModelTransformer(
-                    categorical_columns=selected_categorical_columns,
-                    scale=model_requires_scaling(model_name),
-                )
-                X_train_proc = transformer.fit_transform(X_bal)
-                X_val_proc = transformer.transform(X_inner_val_selected)
-
-                y_train_enc = self._encode_y(y_bal)
-                model_seed = derive_seed(
-                    self.base_seed,
-                    "model",
-                    model_name,
-                    outer_fold,
-                    iteration,
-                    wolf_idx,
-                    inner_fold_idx,
-                )
-                model = build_model(
-                    model_name=model_name,
-                    params=params,
-                    random_state=model_seed,
-                    num_classes=len(self.expected_classes),
-                )
-                model.fit(X_train_proc, y_train_enc)
-                pred_enc = model.predict(X_val_proc)
-                pred = self._decode_y(pred_enc)
-
-                ba, macro_f1 = compute_balanced_accuracy_macro_f1(y_inner_val.tolist(), pred)
-                ba_scores.append(ba)
-                f1_scores.append(macro_f1)
-
-            mean_ba = float(np.mean(ba_scores))
-            mean_f1 = float(np.mean(f1_scores))
-            fitness = (mean_ba + mean_f1) / 2.0
+            fitness = (float(ba) + float(macro_f1)) / 2.0
             return {
-                "fitness": fitness,
-                "mean_balanced_accuracy": mean_ba,
-                "mean_macro_f1": mean_f1,
+                "fitness": float(fitness),
+                "mean_balanced_accuracy": float(ba),
+                "mean_macro_f1": float(macro_f1),
             }
 
         return fitness_fn
@@ -926,24 +979,9 @@ class NestedCVExperiment:
                 extra={"outer_fold": outer_fold_idx},
             )
 
-            preproc = FoldPreprocessor(categorical_columns=self.dataset_cfg["categorical_columns"])
-            preproc.fit(X_outer_train_raw)
-            X_outer_train_encoded = preproc.transform(X_outer_train_raw)
-            X_outer_val_encoded = preproc.transform(X_outer_val_raw)
-
-            fs_seed = derive_seed(self.base_seed, "feature_selection", outer_fold_idx)
-            selected_features, rank_df = select_top_features(
-                X_outer_train_encoded,
-                y_outer_train,
-                config=self.config,
-                random_state=fs_seed,
-            )
-            self._append_outer_fold_feature_rows(rank_df, outer_fold_idx, phase="outer_cv")
-
-            selected_categorical_columns = get_selected_categorical_columns(
-                selected_features,
-                self.dataset_cfg["categorical_columns"],
-            )
+            # Per revised methodology: do not perform feature-selection on full outer-training here.
+            # Feature selection is performed on HPO-train during GWO fitness evaluations
+            # and on full outer-training only after best hyperparameters are selected.
 
             for model_idx, model_name in enumerate(self.model_names):
                 if self._is_outer_model_completed(model_name, outer_fold_idx):

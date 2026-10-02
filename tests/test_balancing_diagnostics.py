@@ -21,11 +21,13 @@ def test_balancing_diagnostics_written_on_exception(tmp_path, synthetic_config):
     exp = NestedCVExperiment(config=cfg, run_context=RunContext(run_id="unit", run_dir=run_dir, smoke_test=False), logger=logger, checkpoint_manager=CheckpointManager(run_dir))
 
     # Build X_selected with one categorical column and two numeric columns
-    X = pd.DataFrame({
-        "proto": ["tcp", "tcp", "tcp", "udp", "udp", "udp", "icmp", "icmp", "icmp", "tcp"],
-        "f1": [0.1 * i for i in range(10)],
-        "f2": [1.0 * i for i in range(10)],
-    })
+    X = pd.DataFrame(
+        {
+            "proto": ["tcp", "tcp", "tcp", "udp", "udp", "udp", "icmp", "icmp", "icmp", "tcp"],
+            "f1": [0.1 * i for i in range(10)],
+            "f2": [1.0 * i for i in range(10)],
+        }
+    )
     # y: class 'Rare' only 3 samples, others 7 samples
     y = pd.Series(["Rare", "Rare", "Rare", "Common", "Common", "Common", "Common", "Common", "Common", "Common"], name="attack_cat")
 

@@ -36,7 +36,7 @@ def _make_experiment(tmp_path: Path, config: dict) -> NestedCVExperiment:
 def test_outer_cv_does_not_load_official_test_dataset(monkeypatch, tmp_path, real_config, real_train_df):
     config = copy.deepcopy(real_config)
     config["cv"]["outer_folds"] = 5
-    config["cv"]["inner_folds"] = 5
+    # revised methodology: inner CV removed; HPO split used instead
 
     subset = _sample_balanced_real_subset(real_train_df, config["dataset"]["target_column"], rows_per_class=10, seed=42)
     exp = _make_experiment(tmp_path, config)
@@ -50,7 +50,7 @@ def test_outer_cv_does_not_load_official_test_dataset(monkeypatch, tmp_path, rea
     exp.run_outer_cv(subset)
 
 
-def test_inner_feature_selection_uses_inner_training_only(monkeypatch, tmp_path, synthetic_config, synthetic_dataset):
+def test_hpo_feature_selection_uses_hpo_training_only(monkeypatch, tmp_path, synthetic_config, synthetic_dataset):
     config = copy.deepcopy(synthetic_config)
     exp = _make_experiment(tmp_path, config)
 
@@ -90,7 +90,9 @@ def test_inner_feature_selection_uses_inner_training_only(monkeypatch, tmp_path,
     result = fitness_fn({}, iteration=0, wolf_idx=0)
 
     assert result["fitness"] >= 0.0
-    assert captured_rows == [30, 30]
+    # feature selection must be called exactly once on the HPO-train partition
+    assert len(captured_rows) == 1
+    assert 0 < captured_rows[0] < 60
 
 
 def test_smote_fallback_without_selected_categorical_features(tmp_path, synthetic_config, synthetic_dataset, caplog):
@@ -140,7 +142,6 @@ def test_real_small_end_to_end_pipeline(monkeypatch, tmp_path, real_config, real
     config["experiment"]["runs_root"] = str(tmp_path / "runs")
     config["experiment"]["save_models"] = False
     config["cv"]["outer_folds"] = 5
-    config["cv"]["inner_folds"] = 5
     config["smotenc"]["k_neighbors"] = 1
     config["smotenc"]["target_count"] = 4
 

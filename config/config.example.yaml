@@ -26,8 +26,11 @@ dataset:
 
 cv:
   outer_folds: 5
-  inner_folds: 5
   shuffle: true
+
+hpo:
+  # deterministic stratified validation split used for HPO inside each outer training partition
+  validation_size: 0.20
 
 feature_selection:
   method: random_forest_importance
@@ -70,8 +73,8 @@ models:
       gamma: {type: float, low: 0.0, high: 5.0}
 
 gwo:
-  population_size: 10
-  iterations: 20
+  population_size: 5
+  iterations: 10
 
 logging:
   level: INFO
@@ -85,7 +88,6 @@ smoke_test:
   rows_per_class_train: 60
   rows_per_class_test: 30
   outer_folds: 2
-  inner_folds: 2
   gwo_population_size: 3
   gwo_iterations: 3
   smotenc_target_count: 80

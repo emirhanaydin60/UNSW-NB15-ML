@@ -26,6 +26,22 @@ class CheckpointManager:
         with self.state_file.open("r", encoding="utf-8") as f:
             return json.load(f)
 
+    def validate_compatibility(self, expected_fingerprint: dict[str, Any]) -> None:
+        """
+        Validate that an existing saved state (if present) matches the expected methodology fingerprint.
+        If incompatible, raise ValueError.
+        """
+        state = self.load_state()
+        if state is None:
+            return
+        existing = state.get("methodology_fingerprint")
+        if existing is None:
+            raise ValueError("Existing checkpoint missing methodology fingerprint; incompatible with new methodology")
+
+        # simple deep-compare
+        if existing != expected_fingerprint:
+            raise ValueError(f"Incompatible checkpoint methodology: existing={existing} expected={expected_fingerprint}")
+
     def validate_state(self) -> bool:
         try:
             _ = self.load_state()
