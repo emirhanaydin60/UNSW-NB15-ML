@@ -2,6 +2,7 @@ import json
 from pathlib import Path
 from collections import defaultdict
 import datetime
+
 p = Path("runs/microbench_xgb_full_1790860876/metadata/diagnostics/balancing_events.jsonl")
 lines = p.read_text().splitlines()
 min_ts = defaultdict(lambda: None)
@@ -14,7 +15,7 @@ for l in lines:
     seen_wolves.add(w)
     t = obj.get("timestamp")
     if t:
-        dt = datetime.datetime.fromisoformat(t.replace('Z', '+00:00'))
+        dt = datetime.datetime.fromisoformat(t.replace("Z", "+00:00"))
         if min_ts[w] is None or dt < min_ts[w]:
             min_ts[w] = dt
         if max_ts[w] is None or dt > max_ts[w]:

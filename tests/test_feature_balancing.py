@@ -54,7 +54,7 @@ def test_sampling_strategy_and_smotenc(synthetic_config, synthetic_dataset):
     assert set(before).issubset(set(after))
 
 
-def test_feature_selection_uses_inner_training_only(monkeypatch, tmp_path, synthetic_config, synthetic_dataset):
+def test_feature_selection_uses_hpo_training_only(monkeypatch, tmp_path, synthetic_config, synthetic_dataset):
     config = copy.deepcopy(synthetic_config)
     run_dir = tmp_path / "run"
     run_dir.mkdir(parents=True, exist_ok=True)
@@ -87,7 +87,10 @@ def test_feature_selection_uses_inner_training_only(monkeypatch, tmp_path, synth
     result = fitness_fn({}, 0, 0)
 
     assert result["fitness"] >= 0.0
-    assert seen_rows == [30, 30]
+    # Revised methodology: a single deterministic HPO split is used (test_size=0.20)
+    # Outer training partition provided to the fitness function has 60 rows,
+    # so HPO-train should have 48 rows and feature selection is called exactly once.
+    assert seen_rows == [48]
 
 
 def test_smote_fallback_has_no_auxiliary_feature_injection(tmp_path, synthetic_config, synthetic_dataset, caplog):

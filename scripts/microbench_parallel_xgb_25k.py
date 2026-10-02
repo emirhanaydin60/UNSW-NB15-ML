@@ -98,16 +98,21 @@ def main():
     # print table and JSON summary
     print("\nRun summary:")
     for r in results:
-        print(json.dumps({
-            "workers": r["workers"],
-            "threads": r["threads"],
-            "total_elapsed_seconds": r["total_elapsed_seconds"],
-            "num_success": r["num_success"],
-            "num_failed": r["num_failed"],
-            "diag_path": r["diag_path"],
-            "effective_metadata": r["effective_metadata"],
-            "balancing_errors_count": len(r["balancing_errors"]),
-        }, indent=2))
+        print(
+            json.dumps(
+                {
+                    "workers": r["workers"],
+                    "threads": r["threads"],
+                    "total_elapsed_seconds": r["total_elapsed_seconds"],
+                    "num_success": r["num_success"],
+                    "num_failed": r["num_failed"],
+                    "diag_path": r["diag_path"],
+                    "effective_metadata": r["effective_metadata"],
+                    "balancing_errors_count": len(r["balancing_errors"]),
+                },
+                indent=2,
+            )
+        )
 
     # compute speedups only for completed runs (exclude interrupted due to failures)
     baseline = 811.9216

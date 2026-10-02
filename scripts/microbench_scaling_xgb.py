@@ -105,18 +105,23 @@ def main():
         rel = None
         if o.get("elapsed_seconds"):
             rel = o["elapsed_seconds"] / baseline
-        print(json.dumps({
-            "sample_size": o["sample_size"],
-            "class_counts": o["class_counts"],
-            "viable": o["viable"],
-            "elapsed_seconds": o["elapsed_seconds"],
-            "relative_to_25k": rel,
-            "num_success": o["num_success"],
-            "num_failed": o["num_failed"],
-            "balancing_errors_count": len(o.get("balancing_errors", [])),
-            "diag_path": o["diag_path"],
-            "effective_metadata": o["effective_metadata"],
-        }, indent=2))
+        print(
+            json.dumps(
+                {
+                    "sample_size": o["sample_size"],
+                    "class_counts": o["class_counts"],
+                    "viable": o["viable"],
+                    "elapsed_seconds": o["elapsed_seconds"],
+                    "relative_to_25k": rel,
+                    "num_success": o["num_success"],
+                    "num_failed": o["num_failed"],
+                    "balancing_errors_count": len(o.get("balancing_errors", [])),
+                    "diag_path": o["diag_path"],
+                    "effective_metadata": o["effective_metadata"],
+                },
+                indent=2,
+            )
+        )
 
     # Print summary table header
     print("\nSample Size\tTime(s)\tRelative to 25k\tSuccessful Wolves\tSMOTENC Errors")

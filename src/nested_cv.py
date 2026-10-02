@@ -762,7 +762,7 @@ class NestedCVExperiment:
                     "gwo_iteration": iteration + 1,
                     "wolf_index": wolf_idx,
                     "stage_durations": timings,
-                    "sample_size": int(len(X_outer_train_raw) + len(X_outer_val_raw)),
+                    "sample_size": int(len(X_outer_train_raw) + len(X_hpo_val_raw)),
                     "n_rows_hpo_train": int(len(X_hpo_train_raw)),
                     "n_rows_hpo_validation": int(len(X_hpo_val_raw)),
                     "n_features": int(len(selected_features)),
