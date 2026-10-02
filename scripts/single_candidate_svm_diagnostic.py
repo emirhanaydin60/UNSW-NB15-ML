@@ -58,6 +58,7 @@ def run_single_candidate(timeout_seconds: int = 1800):
 
     # Outer fold 1 as diagnostic
     from sklearn.model_selection import StratifiedKFold
+
     outer_folds = int(cfg["cv"]["outer_folds"]) if cfg.get("cv") else 5
     skf = StratifiedKFold(n_splits=outer_folds, shuffle=bool(cfg.get("cv", {}).get("shuffle", True)), random_state=derive_seed(int(cfg["experiment"]["base_seed"]), "outer_cv"))
 
